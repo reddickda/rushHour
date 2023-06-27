@@ -1,17 +1,38 @@
 import { useState } from "react";
-import { initialBoard } from "./Utilities/boardHelpers";
+import { boardAsStr, initialBoard } from "./Utilities/boardHelpers";
+import { useMyContext } from './Context/ContextProvider';
 
 export function GameBoard() {
-  const [board, setBoard] = useState(initialBoard());
+  const { state, updatedSelectedBoardSpaces, updateBoard } = useMyContext();
 
-const handleCellClick = (rowIndex:number, cellIndex:number) => {
-  console.log(cellIndex + ",", rowIndex)
+  /// TODO use a set or hash map for tracking spaces
+  // also wont matter because array will be small
+
+const handleCellClick = (cellIndex:number, rowIndex:number) => {
+  console.log("selectedPiece", state.selectedPiece);
+  console.log(cellIndex + ",", rowIndex);
+  // if there is nothing there start the drag event
+  // future: will need to check if its a two piece or a three piece
+  // need to flush board spaces as well
+  // 
+  // if(board[cellIndex][rowIndex] === "_") {
+  //   const newSelectedBoardSpaces = state.selectedBoardSpaces;
+  //   newSelectedBoardSpaces.push([cellIndex, rowIndex]);
+  //   updatedSelectedBoardSpaces(newSelectedBoardSpaces);
+  // } else {
+  //   const newSelectedBoardSpaces = state.selectedBoardSpaces.filter((entry:any) => { console.log(entry); return entry[0] === cellIndex && entry[1] === rowIndex});
+  //   updatedSelectedBoardSpaces(newSelectedBoardSpaces);
+  // }
+  const newBoard = state.board;
+  newBoard[rowIndex][cellIndex] = state.selectedPiece;
+  console.log("newB", boardAsStr(newBoard))
+  updateBoard(newBoard)
 }
 
   const BuildBoard = () => {
-    return board.map((row, rowIndex) => {
+    return state.board.map((row : [], rowIndex: number) => {
       return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
-        return <td key={cellIndex+","+rowIndex} onClick={() => handleCellClick(rowIndex, cellIndex)}>{td}</td>
+        return <td key={cellIndex+","+rowIndex} onClick={() => handleCellClick(cellIndex, rowIndex)}>{td}</td>
       })}</tr>
     })
   }
@@ -33,6 +54,11 @@ const handleCellClick = (rowIndex:number, cellIndex:number) => {
       </tbody>
     </table>)
 }
+
+// make sure there is at least one legal spot to place when clicking
+// function checkSurroundingPiecesEmpty(pieceLength){
+
+// }
 
 // click
 // update board

@@ -1,19 +1,32 @@
+const BOARD_LEN = 6;
+
 export const initialBoard = () => {
-  const initialBoard = makeSquareBoard(6);
-  const boardLen = 6;
-  for (let i = 0; i < boardLen; i++) {
-    for (let j = 0; j < boardLen; j++) {
+  const initialBoard = makeSquareBoard();
+  for (let i = 0; i < BOARD_LEN; i++) {
+    for (let j = 0; j < BOARD_LEN; j++) {
       initialBoard[i][j] = '_';
     }
   }
   return initialBoard;
 }
 
-const makeSquareBoard = (boardLen: number) => {
-  const arr = new Array(boardLen)
-  for (let i = 0; i < boardLen; i++)
-    arr[i] = new Array(boardLen)
+const makeSquareBoard = () => {
+  const arr = new Array(BOARD_LEN)
+  for (let i = 0; i < BOARD_LEN; i++)
+    arr[i] = new Array(BOARD_LEN)
   return arr
+}
+
+export const boardAsStr = (board:any) => {
+  let str = '';
+  for(let i = 0; i < BOARD_LEN; i++){
+    str += '\n';
+    for(let j = 0; j < BOARD_LEN; j++) {
+      str += board[i][j] + " "
+    }
+  }
+
+  return str;
 }
 
 //   [
