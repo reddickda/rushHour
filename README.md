@@ -5,3 +5,8 @@ On drop
 
 Click piece. Set state piece clicked. Click board. Check if empty. Drag. Check if empty. Drop. Check if empty. Set board.
 Red has to be on row 3 horizontal
+
+- context set up with board, selected piece
+- pieces clickable and board udpating
+- click and drag events to set pieces
+- add rules to placement
