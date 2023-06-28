@@ -5,7 +5,7 @@ const MyContext = createContext<any>(null);
 
 export const ContextProvider = ({ children }: any) => {
   const [state, setState] = useState({
-    selectedPiece: '',
+    selectedPiece: 'A',
     selectedBoardSpaces: [],
     board: initialBoard()
   });
