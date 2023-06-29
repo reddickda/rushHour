@@ -1,13 +1,14 @@
 import { createContext, useContext, useState } from 'react';
-import { initialBoard } from '../Utilities/boardHelpers';
+import { initialBoard, initialBoardAsHashedSet } from '../Utilities/boardHelpers';
 
 const MyContext = createContext<any>(null);
 
 export const ContextProvider = ({ children }: any) => {
   const [state, setState] = useState({
     selectedPiece: 'A',
-    selectedBoardSpaces: [],
-    board: initialBoard()
+    selectedBoardSpaces: new Set(),
+    board: initialBoard(),
+    boardAsAHashedSet: initialBoardAsHashedSet()
   });
 
 
@@ -15,10 +16,10 @@ export const ContextProvider = ({ children }: any) => {
     setState(prevState => ({ ...prevState, selectedPiece: piece }));
   }
 
-  const updatedSelectedBoardSpaces = (newSelectedBoardSpaces: []) => {
+  const updatedSelectedBoardSpaces = (newSpace: number, piece: string) => {
     setState(prevState => (
       {
-        ...prevState, selectedBoardSpaces: newSelectedBoardSpaces
+        ...prevState, selectedBoardSpaces: prevState.selectedBoardSpaces.add(newSpace)
       }));
   }
 
@@ -27,6 +28,13 @@ export const ContextProvider = ({ children }: any) => {
       {
         ...prevState, board: newBoard
       }));
+  }
+
+  const updateHashedBoard = () => {
+    // send a set of hashed keys and associated string
+    // check if that string exists anywhere in hashed board
+    // delete where it does
+    // set new spots 
   }
 
   return (

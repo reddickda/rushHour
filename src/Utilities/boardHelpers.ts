@@ -10,6 +10,16 @@ export const initialBoard = () => {
   return initialBoard;
 }
 
+export const initialBoardAsHashedSet = () => {
+  const initialBoardAsSet = new Set();
+  for (let i = 0; i < BOARD_LEN; i++) {
+    for (let j = 0; j < BOARD_LEN; j++) {
+      initialBoardAsSet.add({key: hashPair(j,i), value: '_'});
+    }
+  }
+  return initialBoardAsSet;
+}
+
 const makeSquareBoard = () => {
   const arr = new Array(BOARD_LEN)
   for (let i = 0; i < BOARD_LEN; i++)
@@ -27,6 +37,26 @@ export const boardAsStr = (board:any) => {
   }
 
   return str;
+}
+
+// export function checkBoardForPieceAndRemove(board:any, piece:string) {
+//   for (let i = 0; i < BOARD_LEN; i++) {
+//     for (let j = 0; j < BOARD_LEN; j++) {
+//       return true;
+//     }
+//   }
+
+//   return false;
+// }
+
+export function hashPair(x: number, y: number): number {
+  return x * 6 + y;
+}
+
+export function unhashPair(hashValue: number): { x: number, y: number } {
+  const x = Math.floor(hashValue / 6);
+  const y = hashValue % 6;
+  return { x, y };
 }
 
 //   [

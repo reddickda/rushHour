@@ -10,3 +10,9 @@ Red has to be on row 3 horizontal
 - pieces clickable and board udpating
 - click and drag events to set pieces
 - add rules to placement
+
+- using a set with hashed x,y to track selected pieces on board
+- need to add the constraints now
+
+- represent entire board as hashed set using hash/unhash functions for ease
+- update table rendering to use new hashed board

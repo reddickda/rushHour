@@ -1,59 +1,79 @@
 import { useState } from "react";
-import { boardAsStr, initialBoard } from "./Utilities/boardHelpers";
+import { hashPair, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
 
 export function GameBoard() {
   const { state, updatedSelectedBoardSpaces, updateBoard } = useMyContext();
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [spacesFromDrag, setSpacesFromDrag] = useState(new Set<number>());
 
-  /// TODO use a set or hash map for tracking spaces
-  // also wont matter because array will be small
-
+  // simple click event
   const handleCellClick = (cellIndex: number, rowIndex: number) => {
-    console.log("selectedPiece", state.selectedPiece);
-    console.log(cellIndex + ",", rowIndex);
-    // if there is nothing there start the drag event
-    // future: will need to check if its a two piece or a three piece
-    // need to flush board spaces as well
-    // 
-    // if(board[cellIndex][rowIndex] === "_") {
-    //   const newSelectedBoardSpaces = state.selectedBoardSpaces;
-    //   newSelectedBoardSpaces.push([cellIndex, rowIndex]);
-    //   updatedSelectedBoardSpaces(newSelectedBoardSpaces);
-    // } else {
-    //   const newSelectedBoardSpaces = state.selectedBoardSpaces.filter((entry:any) => { console.log(entry); return entry[0] === cellIndex && entry[1] === rowIndex});
-    //   updatedSelectedBoardSpaces(newSelectedBoardSpaces);
-    // }
-    setIsDragging(true);
 
-    const newBoard = state.board;
-    newBoard[rowIndex][cellIndex] = state.selectedPiece;
-    console.log("newB", boardAsStr(newBoard))
-    updateBoard(newBoard)
+    // const newBoard = state.board;
+    // newBoard[rowIndex][cellIndex] = state.selectedPiece;
+    // updateBoard(newBoard)
   }
 
+  // starting mouse down
+  const handleMouseDown = (cellIndex: number, rowIndex: number) => {
+    // check if board already has the piece
+    setIsDragging(true);
+    // const newBoard = state.board;
+    // newBoard[rowIndex][cellIndex] = state.selectedPiece;
+    // updateBoard(newBoard)
+  }
+
+  // dragging is true from a mouse down 
+  // make sure drag isnt over 2 for two piece and 3 for three piece
+  // check that the piece isnt already on the board
   const handleCellMouseEnter = (rowIndex: number, cellIndex: number) => {
-    console.log("mouse entered")
     if (isDragging) {
-      console.log("dragging")
-
-      // Update selected cells when dragging over adjacent cells
-      updatedSelectedBoardSpaces([...state.selectedBoardSpaces, [cellIndex, rowIndex]]);
-    updateBoard(newBoard)
-
-      // setSelectedCells([...selectedCells, { row: rowIndex, col: colIndex }]);
+      // if its a two piece, drag event cant exceed two, but must be more than one
+      if (['A', 'B', 'C', 'D'].includes(state.selectedPiece) && spacesFromDrag.size < 2) {
+        // if its A then add special constraint to have to be on row 3
+        if (state.selectedPiece === 'A') {
+          // if not row 3, ignore
+          if (rowIndex !== 2) {
+            return
+          } else {
+            setSpacesFromDrag(spacesFromDrag.add(hashPair(cellIndex, rowIndex)))
+            // updatedSelectedBoardSpaces(hashPair(cellIndex, rowIndex));
+          }
+        } else {
+          setSpacesFromDrag(spacesFromDrag.add(hashPair(cellIndex, rowIndex)))
+          // updatedSelectedBoardSpaces(hashPair(cellIndex, rowIndex));
+        }
+      }
     }
   };
 
+  // Reset the dragging state when the mouse button is released
+  // iterate through spacesFromDrag event and update board from drag event
   const handleMouseUp = () => {
-    // Reset the dragging state when the mouse button is released
     setIsDragging(false);
+    // if drag event was only 1 piece ie. a single click, do not update board
+    if (spacesFromDrag.size < 2) {
+      spacesFromDrag.clear();
+      setSpacesFromDrag(spacesFromDrag)
+    } else {
+      const newBoard = state.board;
+      spacesFromDrag.forEach((hashedPair: number) => {
+        const unhashedPair = unhashPair(hashedPair);
+        newBoard[unhashedPair.y][unhashedPair.x] = state.selectedPiece;
+      });
+      // update board and clear drag set
+      updateBoard(newBoard)
+      spacesFromDrag.clear();
+      setSpacesFromDrag(spacesFromDrag)
+    }
   };
 
+  // update this to make use of new hashed board
   const BuildBoard = () => {
     return state.board.map((row: [], rowIndex: number) => {
       return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
-        return <td onMouseEnter={() => handleCellMouseEnter(rowIndex, cellIndex)} key={cellIndex + "," + rowIndex} onClick={() => handleCellClick(cellIndex, rowIndex)}><button>{td}</button></td>
+        return <td onMouseDown={() => handleMouseDown(cellIndex, rowIndex)} onMouseUp={handleMouseUp} onMouseEnter={() => handleCellMouseEnter(rowIndex, cellIndex)} key={cellIndex + "," + rowIndex} onClick={() => handleCellClick(cellIndex, rowIndex)}><button>{td}</button></td>
       })}</tr>
     })
   }
@@ -80,7 +100,3 @@ export function GameBoard() {
 // function checkSurroundingPiecesEmpty(pieceLength){
 
 // }
-
-// click
-// update board
-// rerender table
