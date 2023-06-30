@@ -1,3 +1,5 @@
+import { ITablePiece } from "../GameBoard";
+
 const BOARD_LEN = 6;
 
 export const initialBoard = () => {
@@ -11,10 +13,10 @@ export const initialBoard = () => {
 }
 
 export const initialBoardAsHashedSet = () => {
-  const initialBoardAsSet = new Set();
+  const initialBoardAsSet = new Set<ITablePiece>();
   for (let i = 0; i < BOARD_LEN; i++) {
     for (let j = 0; j < BOARD_LEN; j++) {
-      initialBoardAsSet.add({key: hashPair(j,i), value: '_'});
+      initialBoardAsSet.add({key: hashPair(j,i), piece: '_'});
     }
   }
   return initialBoardAsSet;
