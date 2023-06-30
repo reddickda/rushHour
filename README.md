@@ -16,3 +16,5 @@ Red has to be on row 3 horizontal
 
 - represent entire board as hashed set using hash/unhash functions for ease
 - update table rendering to use new hashed board
+
+- using hashed board, need to figure out drag event issue - use refs?
