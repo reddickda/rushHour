@@ -12,23 +12,8 @@ export const ContextProvider = ({ children }: any) => {
     boardAsAHashedSet: initialBoardAsHashedSet()
   });
 
-
   const setSelectedPiece = (piece: string) => {
     setState(prevState => ({ ...prevState, selectedPiece: piece }));
-  }
-
-  const updatedSelectedBoardSpaces = (hashedKey: number, piece: string) => {
-    // setState(prevState => (
-    //   {
-    //     ...prevState, selectedBoardSpaces: prevState.selectedBoardSpaces.add(newSpace)
-    //   }));
-  }
-
-  const updateBoard = (newBoard: any) => {
-    setState(prevState => (
-      {
-        ...prevState, board: newBoard
-      }));
   }
 
   const updateHashedBoard = (hashedPieces: Set<ITablePiece>, board: Set<ITablePiece>) => {
@@ -36,12 +21,21 @@ export const ContextProvider = ({ children }: any) => {
     // iterate through current board
     // if current board contains that piece set it to _ 
     // if key from new set = current board key, set piece
+
+    // clear board of the piece
     hashedPieces.forEach((hashedPiece) => {
       const { key, piece } = hashedPiece;
       board.forEach((boardPiece) => {
         if (piece === boardPiece.piece) {
           boardPiece.piece = "_"
         }
+      })
+    })
+
+    // set the new piece
+    hashedPieces.forEach((hashedPiece) => {
+      const { key, piece } = hashedPiece;
+      board.forEach((boardPiece) => {
         if (key === boardPiece.key) {
           boardPiece.piece = piece
         }
@@ -54,7 +48,7 @@ export const ContextProvider = ({ children }: any) => {
   }
 
   return (
-    <MyContext.Provider value={{ state, setSelectedPiece, updatedSelectedBoardSpaces, updateBoard, updateHashedBoard }}>
+    <MyContext.Provider value={{ state, setSelectedPiece, updateHashedBoard }}>
       {children}
     </MyContext.Provider>
   );

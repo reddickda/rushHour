@@ -41,16 +41,6 @@ export const boardAsStr = (board:any) => {
   return str;
 }
 
-// export function checkBoardForPieceAndRemove(board:any, piece:string) {
-//   for (let i = 0; i < BOARD_LEN; i++) {
-//     for (let j = 0; j < BOARD_LEN; j++) {
-//       return true;
-//     }
-//   }
-
-//   return false;
-// }
-
 export function hashPair(x: number, y: number): number {
   return x * 6 + y;
 }

@@ -18,3 +18,10 @@ Red has to be on row 3 horizontal
 - update table rendering to use new hashed board
 
 - using hashed board, need to figure out drag event issue - use refs?
+
+- figured out board updating with hash
+  - clear board of old pieces first then set
+- handling two piece logic
+
+- TODO handle collisions (if you over write any piece then just remove that entire piece)
+- TODO handle 3 pieces
