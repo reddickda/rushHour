@@ -1,6 +1,6 @@
 import { ITablePiece, THREEPIECES, TWOPIECES } from "../GameBoard";
 
-const BOARD_LEN = 6;
+export const BOARD_LEN = 6;
 
 export const initialBoard = () => {
   const initialBoard = makeSquareBoard();
@@ -230,4 +230,54 @@ export function addNewPiece(hashedPieces: Set<ITablePiece>, board: Set<ITablePie
 
   // convert back to hashed board
   return flattenBoard(lowercasedBoard);
+}
+
+export function checkForDiagonals(spacesFromDrag: Set<ITablePiece>, setSpacesFromDrag:any){
+  let isDiagonal = false;
+  const tempPieces: any = [];
+  spacesFromDrag.forEach((x) => {
+    tempPieces.push(unhashPair(x.key))
+  })
+  tempPieces.map((piece: any, index: number) => {
+    if (index + 1 < tempPieces.length) {
+      // diagonals on a matrix 
+      isDiagonal = findDiagonalNeighbors(piece, tempPieces[index + 1].x, tempPieces[index + 1].y)
+      if (isDiagonal) {
+        spacesFromDrag.clear();
+        setSpacesFromDrag(spacesFromDrag)
+        return;
+      }
+      if (tempPieces.length === 3) {
+        if (findDiagonalNeighbors(tempPieces[0], tempPieces[2].x, tempPieces[2].y)) {
+          spacesFromDrag.clear();
+          setSpacesFromDrag(spacesFromDrag)
+          return;
+        }
+      }
+    }
+  })
+}
+
+function findDiagonalNeighbors(prev: { x: number; y: number; }, x: number, y: number) {
+  // Check top-left neighbor
+  if (x > 0 && y > 0 && x === prev.x - 1 && y == prev.y - 1) {
+    return true;
+  }
+
+  // Check top-right neighbor
+  if (x < BOARD_LEN - 1 && y > 0 && x === prev.x + 1 && prev.y === y - 1) {
+    return true;
+  }
+
+  // Check bottom-left neighbor
+  if (x > 0 && y < BOARD_LEN - 1 && x === prev.x - 1 && y === prev.y + 1) {
+    return true;
+  }
+
+  // Check bottom-right neighbor
+  if (x < BOARD_LEN - 1 && y < BOARD_LEN - 1 && x === prev.x + 1 && y === prev.y + 1) {
+    return true;
+  }
+
+  return false;
 }

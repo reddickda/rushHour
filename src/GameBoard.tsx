@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
+import { BOARD_LEN, checkForDiagonals, hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
 
 export interface ITablePiece {
@@ -31,6 +31,7 @@ export function GameBoard() {
   // make sure drag isnt over 2 for two piece and 3 for three piece
   // check that the piece isnt already on the board
   const handleCellMouseEnter = (rowIndex: number, cellIndex: number) => {
+
     if (isDragging) {
       console.log("entered...")
       handlePiecePlacementDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag)
@@ -41,7 +42,6 @@ export function GameBoard() {
   // iterate through spacesFromDrag event and update board from drag event
   const handleMouseUp = () => {
     setIsDragging(false);
-    console.log("m up")
 
     // skip set if drag size is less than current selected piece
     if (TWOPIECES.includes(state.selectedPiece)) {
@@ -57,13 +57,17 @@ export function GameBoard() {
         return;
       }
     }
+
+    // check for diagonals
+    checkForDiagonals(spacesFromDrag, setSpacesFromDrag);
+
     updateHashedBoard(spacesFromDrag, state.boardAsAHashedSet)
     spacesFromDrag.clear();
     setSpacesFromDrag(spacesFromDrag)
   };
 
   const handleTableLeave = () => {
-    setIsDragging(false); 
+    setIsDragging(false);
     spacesFromDrag.clear();
     setSpacesFromDrag(spacesFromDrag)
   }

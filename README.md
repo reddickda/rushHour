@@ -40,4 +40,6 @@ Red has to be on row 3 horizontal
   - funny behavior when you are dragging and it goes off the table
   - fixed this clearing on table leave
 
-- can do diagonal placements... FACK
+- TODO fix diagonal placements... FACK
+    - ultimately would like to just click a piece and drag it onto board
+      - click to update orientation, place and check if legal
