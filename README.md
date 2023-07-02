@@ -35,3 +35,9 @@ Red has to be on row 3 horizontal
 - clean up all code too
 
 - handling upper and lowecase
+
+- some drag up off table clearing extra
+  - funny behavior when you are dragging and it goes off the table
+  - fixed this clearing on table leave
+
+- can do diagonal placements... FACK

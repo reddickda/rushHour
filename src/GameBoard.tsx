@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
 
@@ -14,13 +14,6 @@ export function GameBoard() {
   const { state, updateHashedBoard } = useMyContext();
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [spacesFromDrag, setSpacesFromDrag] = useState(new Set<ITablePiece>());
-
-  // handles on mouse up out of table as well
-  useEffect(() => {
-    document.body.addEventListener("mouseup", () => {
-      handleMouseUp();
-    })
-  }, [])
 
   // starting mouse down
   const handleMouseDown = (cellIndex: number, rowIndex: number) => {
@@ -40,7 +33,7 @@ export function GameBoard() {
   const handleCellMouseEnter = (rowIndex: number, cellIndex: number) => {
     if (isDragging) {
       console.log("entered...")
-      handlePiecePlacement(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag)
+      handlePiecePlacementDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag)
     }
   };
 
@@ -48,6 +41,7 @@ export function GameBoard() {
   // iterate through spacesFromDrag event and update board from drag event
   const handleMouseUp = () => {
     setIsDragging(false);
+    console.log("m up")
 
     // skip set if drag size is less than current selected piece
     if (TWOPIECES.includes(state.selectedPiece)) {
@@ -67,6 +61,12 @@ export function GameBoard() {
     spacesFromDrag.clear();
     setSpacesFromDrag(spacesFromDrag)
   };
+
+  const handleTableLeave = () => {
+    setIsDragging(false); 
+    spacesFromDrag.clear();
+    setSpacesFromDrag(spacesFromDrag)
+  }
 
   // update this to make use of new hashed board
   const BuildBoard = () => {
@@ -90,7 +90,7 @@ export function GameBoard() {
   }
 
   return (
-    <table cellPadding={0}>
+    <table onMouseLeave={handleTableLeave} cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>
@@ -139,7 +139,7 @@ function handleThreePieceSelectionDrag(state: { selectedPiece: string; }, cellIn
   }
 }
 
-function handlePiecePlacement(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
+function handlePiecePlacementDrag(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
   // if two piece
   handleTwoPieceSelectionDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag);
   // if three piece
