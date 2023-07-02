@@ -7,6 +7,9 @@ export interface ITablePiece {
   piece: string;
 }
 
+export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+export const THREEPIECES = ['I', 'J', 'K']
+
 export function GameBoard() {
   const { state, updateHashedBoard } = useMyContext();
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -16,7 +19,6 @@ export function GameBoard() {
   useEffect(() => {
     document.body.addEventListener("mouseup", () => {
       handleMouseUp();
-      console.log("asjdhaskdjsk")
     })
   }, [])
 
@@ -38,8 +40,7 @@ export function GameBoard() {
   const handleCellMouseEnter = (rowIndex: number, cellIndex: number) => {
     if (isDragging) {
       console.log("entered...")
-      // if its a two piece, drag event cant exceed two, but must be more than one
-      handleTwoPieceSelectionDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag);
+      handlePiecePlacement(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag)
     }
   };
 
@@ -49,16 +50,22 @@ export function GameBoard() {
     setIsDragging(false);
 
     // skip set if drag size is less than current selected piece
-    // TODO implement for 3 piece
-    if (spacesFromDrag.size < 2) {
-      spacesFromDrag.clear();
-      setSpacesFromDrag(spacesFromDrag)
-      return;
+    if (TWOPIECES.includes(state.selectedPiece)) {
+      if (spacesFromDrag.size < 2) {
+        spacesFromDrag.clear();
+        setSpacesFromDrag(spacesFromDrag)
+        return;
+      }
+    } else {
+      if (spacesFromDrag.size < 3) {
+        spacesFromDrag.clear();
+        setSpacesFromDrag(spacesFromDrag)
+        return;
+      }
     }
     updateHashedBoard(spacesFromDrag, state.boardAsAHashedSet)
     spacesFromDrag.clear();
     setSpacesFromDrag(spacesFromDrag)
-    // }
   };
 
   // update this to make use of new hashed board
@@ -106,7 +113,7 @@ export function GameBoard() {
 // }
 
 function handleTwoPieceSelectionDrag(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
-  if (['A', 'B', 'C', 'D'].includes(state.selectedPiece) && spacesFromDrag.size < 2) {
+  if (TWOPIECES.includes(state.selectedPiece) && spacesFromDrag.size < 2) {
     // if its A then add special constraint to have to be on row 3
     if (state.selectedPiece === 'A') {
       // if not row 3, ignore
@@ -115,16 +122,31 @@ function handleTwoPieceSelectionDrag(state: { selectedPiece: string; }, cellInde
         return
       } else {
         setSpacesFromDrag(spacesFromDrag.add({ key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }))
-        //     // updatedSelectedBoardSpaces(hashPair(cellIndex, rowIndex));
       }
     } else {
-      console.log("adding...")
-      // console.log(cellIndex, rowIndex)
+      console.log("adding two...")
       const toAdd: ITablePiece = { key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }
-      console.log(toAdd)
-      // spacesFromDrag.add(toAdd) // callbac
       setSpacesFromDrag(() => spacesFromDrag.add(toAdd))
-      // updatedSelectedBoardSpaces(hashPair(cellIndex, rowIndex));
     }
   }
+}
+
+function handleThreePieceSelectionDrag(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
+  if (THREEPIECES.includes(state.selectedPiece) && spacesFromDrag.size < 3) {
+    // if its A then add special constraint to have to be on row 3
+    console.log("adding three...")
+    // console.log(cellIndex, rowIndex)
+    const toAdd: ITablePiece = { key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }
+    console.log(toAdd)
+    // spacesFromDrag.add(toAdd) // callbac
+    setSpacesFromDrag(() => spacesFromDrag.add(toAdd))
+    // updatedSelectedBoardSpaces(hashPair(cellIndex, rowIndex));
+  }
+}
+
+function handlePiecePlacement(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
+  // if two piece
+  handleTwoPieceSelectionDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag);
+  // if three piece
+  handleThreePieceSelectionDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag);
 }

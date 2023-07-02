@@ -26,3 +26,7 @@ Red has to be on row 3 horizontal
 - TODO handle collisions (if you over write any piece then just remove that entire piece)
 - TODO handle 3 pieces
 - TODO 2d board representation updated as well? Will need for the solves
+- handle lowercase vertical uppercase horizontal
+
+- collisions handled on board
+- handle uppercase and lowercase

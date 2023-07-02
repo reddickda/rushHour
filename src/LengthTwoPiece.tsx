@@ -1,4 +1,3 @@
-import { Direction } from "./App";
 import { useMyContext } from './Context/ContextProvider';
 
 export function LengthTwoPiece({letterRepresentation, color}: {letterRepresentation: string, color: string} ){
