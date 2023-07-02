@@ -107,11 +107,6 @@ export function GameBoard() {
     </table>)
 }
 
-// make sure there is at least one legal spot to place when clicking
-// function checkSurroundingPiecesEmpty(pieceLength){
-
-// }
-
 function handleTwoPieceSelectionDrag(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
   if (TWOPIECES.includes(state.selectedPiece) && spacesFromDrag.size < 2) {
     // if its A then add special constraint to have to be on row 3

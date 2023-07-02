@@ -30,3 +30,8 @@ Red has to be on row 3 horizontal
 
 - collisions handled on board
 - handle uppercase and lowercase
+
+- add types everywhere(function returns etc), standardize function declarations of "row vs cell"
+- clean up all code too
+
+- handling upper and lowecase

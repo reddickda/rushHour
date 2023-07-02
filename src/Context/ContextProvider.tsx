@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { initialBoard, initialBoardAsHashedSet } from '../Utilities/boardHelpers';
+import { hashPair, initialBoard, initialBoardAsHashedSet, unhashPair } from '../Utilities/boardHelpers';
 import { ITablePiece, THREEPIECES, TWOPIECES } from '../GameBoard';
 
 const MyContext = createContext<any>(null);
@@ -26,7 +26,7 @@ export const ContextProvider = ({ children }: any) => {
     hashedPieces.forEach((hashedPiece) => {
       const { key, piece } = hashedPiece;
       board.forEach((boardPiece) => {
-        if (piece === boardPiece.piece) {
+        if (piece.toUpperCase() === boardPiece.piece.toUpperCase()) {
           boardPiece.piece = "_"
         }
       })
@@ -50,9 +50,19 @@ export const ContextProvider = ({ children }: any) => {
     // if a 2 piece is less than 2 or if a 3 piece is less than 3 clear that piece
     const cleanedBoard = removeIncompletePiecesFromBoard(board, pieceMap);
 
+    // convert hashed board back to 2d board
+    const convertedBoard = convertFlatArrayTo2D(cleanedBoard);
+
+    // check for vertical pieces and set to lowercase
+    const lowercasedBoard = checkIfPiecesVertical(convertedBoard);
+
+    // convert back to hashed board
+
+    const finalizedBoard = flattenBoard(lowercasedBoard);
+
     setState(prevState => (
       {
-        ...prevState, boardAsAHashedSet: cleanedBoard
+        ...prevState, boardAsAHashedSet: finalizedBoard
       }));
   }
 
@@ -97,15 +107,10 @@ function removeIncompletePiecesFromBoard(board:Set<ITablePiece>, pieceMap:Map<st
   const piecesToRemove: Set<string> = new Set<string>();
 
     pieceMap.forEach((value, key) => {
-      console.log(key, value)
       if (TWOPIECES.includes(key) && value < 2 && value !== 0) {
-        // remove key from board
         piecesToRemove.add(key);
-        console.log("remove this from board", key)
       } else if (THREEPIECES.includes(key) && value < 3 && value !== 0) {
-        console.log("remove this from board", key)
         piecesToRemove.add(key);
-        // remove key from baord
       }
     })
 
@@ -116,4 +121,62 @@ function removeIncompletePiecesFromBoard(board:Set<ITablePiece>, pieceMap:Map<st
     })
 
     return board;
+}
+
+// break board back into 2d
+function convertFlatArrayTo2D(hashedBoard: Set<ITablePiece>){
+  const twoDimensionalBoard = initialBoard();
+  
+  hashedBoard.forEach((hashedPiece:ITablePiece) => {
+    const unhashedCoordinates = unhashPair(hashedPiece.key);
+    twoDimensionalBoard[unhashedCoordinates.y][unhashedCoordinates.x] = hashedPiece.piece
+  })
+
+  return twoDimensionalBoard;
+}
+
+// check for vertical pieces using math
+// set verticals to lowercase
+// go through board, keep track of seen pieces with set
+function checkIfPiecesVertical(board: any){
+  const seenPieces = new Set();
+  for(let i = 0; i < 6; i++){
+    for(let j = 0; j < 6; j++){
+      if(board[i][j] !== "_") {
+        if(!seenPieces.has(board[i][j])){
+          seenPieces.add(board[i][j]);
+          if(board[i+1] && board[i+1][j]  === board[i][j])
+            // vertical!!!
+            // check if 3 piece
+            if(board[i+2] && board[i+2][j] === board[i][j]){
+              board[i][j] = board[i][j].toLowerCase();
+              board[i+1][j] = board[i][j].toLowerCase();
+              board[i+2][j] = board[i][j].toLowerCase();
+            }
+            else{
+              board[i][j] = board[i][j].toLowerCase();
+              board[i+1][j] = board[i][j].toLowerCase();
+            }
+        }
+      }
+    }
+  }
+  // check set for found piece
+  // find first appearance of a piece, check if it has a duplicate to the right or below
+  // to the right - horizontal, leave it
+  // below - vertical, make both lowercase
+  // add to set
+
+  return board;
+}
+
+
+function flattenBoard(board:any){
+  const hashedBoard = new Set<ITablePiece>();
+  for(let i = 0; i < 6; i++){
+    for(let j = 0; j < 6; j++){
+      hashedBoard.add({key: hashPair(j, i), piece: board[i][j]})
+    }
+  }
+  return hashedBoard;
 }
