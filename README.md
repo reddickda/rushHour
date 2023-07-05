@@ -41,5 +41,8 @@ Red has to be on row 3 horizontal
   - fixed this clearing on table leave
 
 - TODO fix diagonal placements... FACK
-    - ultimately would like to just click a piece and drag it onto board
-      - click to update orientation, place and check if legal
+
+- ultimately would like to just click a piece and drag it onto board
+  - click to update orientation, place and check if legal
+
+- diagonals being checked for

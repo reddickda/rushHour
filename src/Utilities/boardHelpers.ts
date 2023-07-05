@@ -128,7 +128,7 @@ function removeIncompletePiecesFromBoard(board: Set<ITablePiece>, pieceMap: Map<
 }
 
 // break board back into 2d
-function convertFlatArrayTo2D(hashedBoard: Set<ITablePiece>) {
+export function convertFlatArrayTo2D(hashedBoard: Set<ITablePiece>) {
   const twoDimensionalBoard = initialBoard();
 
   hashedBoard.forEach((hashedPiece: ITablePiece) => {
