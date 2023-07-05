@@ -23,7 +23,7 @@ function App() {
       <ListOfPieces />
       <GameBoard />
       <button onClick={handleClickSolve}>Solve it!</button>
-      {solvedBoard && <div>solved!</div>}
+      {solvedBoard ? <div>solved!</div> : <div>not solved...</div>}
     </div>
   )
 }
