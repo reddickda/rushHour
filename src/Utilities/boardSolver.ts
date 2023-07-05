@@ -109,6 +109,28 @@ function horizontalStates(board, letter, row, seenStates, queue) {
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
   
+  // TODO: Need the indices in row where our letter start is
+  // loop through row
+  // every space increment "left" by 1
+  // if you run into another letter that isnt the correct letter reset to 0
+  // when you run into correct letter you set "left" to false
+  // incrememnt every space until you hit another letter
+
+  // now you have left and right amounts
+  // loop left times
+  // make a board where row where piece is shifted left piecestart - i
+    // do bounds check
+    // check board as str in seen boards
+    // check if solved
+    // add board to queue
+
+  // loop right times
+  // make a board where row where piece is shifted right piecestart + i
+    // do bounds check
+    // check board as str in seen boards
+    // check if solved
+    // add board to queue
+
   // potential cases to design an algorithm for this
   // [_,_,A,A,_,_]
 
@@ -140,6 +162,8 @@ function verticalStates(board, letter, seenStates, queue) {
   // count empty spaces up and down
    // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
+
+  // TODO same thing as horizontal but vertical... little trickier with math
 }
 
 //1. Initialize a queue containing just the start state.
