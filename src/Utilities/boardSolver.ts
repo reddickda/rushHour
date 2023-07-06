@@ -1,4 +1,4 @@
-import { THREEPIECES } from "../GameBoard";
+import { THREEPIECES, TWOPIECES } from "../GameBoard";
 import { BOARD_LEN, boardAsStr, convertFlatArrayTo2D, copyBoard } from "./boardHelpers";
 
 export function bfs(start_state: any) {
@@ -78,6 +78,7 @@ function getNextStates(board: any, seenStates: Set<string>, queue: any) {
           } else { // lowercase
             // add to seen letters
             seenLetters.add(board[i][j].toUpperCase());
+            verticalStates(board, board[i][j].toUpperCase(),j, seenStates, queue)
             // generate all up and down cases
             // check if in seenstates
             // check if solved puzzle
@@ -151,10 +152,25 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     // build new board
     const boardToAdd = copyBoard(board);
     // do the shift here
-    // TODO shift logic needs work
-    if (firstIndex - i >= 0) { // [_,K,K,K,_,_]
-      boardToAdd[rowIndex][firstIndex - i] = letter;
-      boardToAdd[rowIndex][lastIndex] = "_";
+    if(THREEPIECES.includes(letter)) {
+      const secondIndex = lastIndex - 1;
+      if (firstIndex - i >= 0) { // [_,K,K,K,_,_]
+        boardToAdd[rowIndex][firstIndex] = "_";
+        boardToAdd[rowIndex][secondIndex] = "_";
+        boardToAdd[rowIndex][lastIndex] = "_";
+
+        boardToAdd[rowIndex][firstIndex - i] = letter;
+        boardToAdd[rowIndex][secondIndex - i] = letter;
+        boardToAdd[rowIndex][lastIndex - i] = letter;
+      }
+    }else if(TWOPIECES.includes(letter)) {
+      if (firstIndex - i >= 0) { // [_,K,K,K,_,_]
+        boardToAdd[rowIndex][firstIndex] = "_";
+        boardToAdd[rowIndex][lastIndex] = "_";
+
+        boardToAdd[rowIndex][firstIndex - i] = letter;
+        boardToAdd[rowIndex][lastIndex - i] = letter;
+      }
     }
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
@@ -166,18 +182,35 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     }
   }
 
+  /// TODO right moves
   for (let i = 0; i < rightMoves; i++) {
     // build new board
     const boardToAdd = copyBoard(board);
     // do the shift here
-    if (firstIndex + i <= BOARD_LEN) { // [_,K,K,K,_,_]
-      boardToAdd[rowIndex][firstIndex + i] = letter;
-      boardToAdd[rowIndex][firstIndex] = "_";
+    if(THREEPIECES.includes(letter)) {
+      const secondIndex = lastIndex - 1;
+      if (firstIndex + i  <= BOARD_LEN) { // [_,K,K,K,_,_]
+        boardToAdd[rowIndex][firstIndex] = "_";
+        boardToAdd[rowIndex][secondIndex] = "_";
+        boardToAdd[rowIndex][lastIndex] = "_";
+
+        boardToAdd[rowIndex][firstIndex + i] = letter;
+        boardToAdd[rowIndex][secondIndex + i] = letter;
+        boardToAdd[rowIndex][lastIndex + i] = letter;
+      }
+    }else if(TWOPIECES.includes(letter)) {
+      if (firstIndex + i <= BOARD_LEN) { // [_,K,K,K,_,_]
+        boardToAdd[rowIndex][firstIndex] = "_";
+        boardToAdd[rowIndex][lastIndex] = "_";
+
+        boardToAdd[rowIndex][firstIndex + i] = letter;
+        boardToAdd[rowIndex][lastIndex + i] = letter;
+      }
     }
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
-
+      // if(isSolved())
       // add to queue
       queue.push(boardToAdd)
       seenStates.add(boardAsStr(boardToAdd));
@@ -221,12 +254,104 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
 
 
 
-function verticalStates(board, letter, seenStates, queue) {
+function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, queue: any) {
   // count empty spaces up and down
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
+  console.log("vertical")
+  let upMoves = 0;
+  let downMoves = 0;
+  let above = true;
 
-  // TODO same thing as horizontal but vertical... little trickier with math
+  const columnAsArray = [];
+  for(let i = 0; i < BOARD_LEN; i++) {
+    columnAsArray.push(board[i][columnIndex]);
+    if(above && board[i][columnIndex] === "_") {
+      upMoves = upMoves + 1;
+    } else if (above && board[i][columnIndex] !== "_" && board[i][columnIndex] !== letter) {
+      upMoves = 0;
+    } else if(above && board[i][columnIndex] === letter) {
+      above = false;
+    } else if(!above && board[i][columnIndex] === "_") {
+      downMoves = downMoves + 1;
+    } else {
+      downMoves = 0;
+    }
+  }
+
+  const firstIndex = columnAsArray.indexOf(letter);
+  const lastIndex = columnAsArray.lastIndexOf(letter);
+
+  /// Up moves
+  for (let i = 0; i < upMoves; i++) {
+    // build new board
+    const boardToAdd = copyBoard(board);
+    // do the shift here
+    if(THREEPIECES.includes(letter)) {
+      const secondIndex = lastIndex - 1;
+      if (firstIndex - i >= 0) { // [_,K,K,K,_,_]
+        boardToAdd[firstIndex][columnIndex] = "_";
+        boardToAdd[secondIndex][columnIndex] = "_";
+        boardToAdd[lastIndex][columnIndex] = "_";
+
+        boardToAdd[firstIndex - i][columnIndex] = letter;
+        boardToAdd[secondIndex - i][columnIndex] = letter;
+        boardToAdd[lastIndex - i][columnIndex] = letter;
+      }
+    }else if(TWOPIECES.includes(letter)) {
+      if (firstIndex - i >= 0) { // [_,K,K,K,_,_]
+        boardToAdd[firstIndex][columnIndex] = "_";
+        boardToAdd[lastIndex][columnIndex] = "_";
+
+        boardToAdd[firstIndex][columnIndex] = letter;
+        boardToAdd[lastIndex][columnIndex] = letter;
+      }
+    }
+    // check new board in seen
+    if (!seenStates.has(boardAsStr(boardToAdd))) {
+      // check if solved
+      // if(isSolved())
+      // add to queue
+      queue.push(boardToAdd)
+      seenStates.add(boardAsStr(boardToAdd));
+    }
+  }
+  
+  // todo DOWN moves
+  for (let i = 0; i < downMoves; i++) {
+    // build new board
+    const boardToAdd = copyBoard(board);
+    // do the shift here
+    if(THREEPIECES.includes(letter)) {
+      const secondIndex = lastIndex - 1;
+      if (firstIndex + i <= BOARD_LEN) { // [_,K,K,K,_,_]
+        boardToAdd[firstIndex][columnIndex] = "_";
+        boardToAdd[secondIndex][columnIndex] = "_";
+        boardToAdd[lastIndex][columnIndex] = "_";
+
+        boardToAdd[firstIndex + i][columnIndex] = letter;
+        boardToAdd[secondIndex + i][columnIndex] = letter;
+        boardToAdd[lastIndex + i][columnIndex] = letter;
+      }
+    }else if(TWOPIECES.includes(letter)) {
+      if (firstIndex + i <= BOARD_LEN) { // [_,K,K,K,_,_]
+        boardToAdd[firstIndex][columnIndex] = "_";
+        boardToAdd[lastIndex][columnIndex] = "_";
+
+        boardToAdd[firstIndex + i][columnIndex] = letter;
+        boardToAdd[lastIndex + i][columnIndex] = letter;
+      }
+    }
+    // check new board in seen
+    if (!seenStates.has(boardAsStr(boardToAdd))) {
+      // check if solved
+      // if(isSolved())
+      // add to queue
+      queue.push(boardToAdd)
+      seenStates.add(boardAsStr(boardToAdd));
+    }
+  }
+
 }
 
 //1. Initialize a queue containing just the start state.
