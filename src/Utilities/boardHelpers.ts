@@ -179,7 +179,7 @@ function checkIfPiecesVertical(board: any) {
 }
 
 
-function flattenBoard(board: any) {
+export function flattenBoard(board: any) {
   const hashedBoard = new Set<ITablePiece>();
   for (let i = 0; i < BOARD_LEN; i++) {
     for (let j = 0; j < BOARD_LEN; j++) {
@@ -228,11 +228,14 @@ export function addNewPiece(hashedPieces: Set<ITablePiece>, board: Set<ITablePie
 
   // convert hashed board back to 2d board
   const convertedBoard = convertFlatArrayTo2D(cleanedBoard);
+  console.log({convertedBoard})
 
   // check for vertical pieces and set to lowercase
   const lowercasedBoard = checkIfPiecesVertical(convertedBoard);
 
   // convert back to hashed board
+  const flattenedBoard = flattenBoard(lowercasedBoard);
+  console.log("flatTo2D", convertFlatArrayTo2D(flattenedBoard))
   return flattenBoard(lowercasedBoard);
 }
 
