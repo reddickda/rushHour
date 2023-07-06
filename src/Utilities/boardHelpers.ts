@@ -51,6 +51,10 @@ export function unhashPair(hashValue: number): { x: number, y: number } {
   return { x, y };
 }
 
+export function copyBoard(board:any) {
+  return board.map((arr:any) => arr.slice());
+}
+
 //   [
 //     ['_', '_', '_', 'B', 'C', 'C'],
 //     ['_', '_', '_', 'B', '_', '_'],
