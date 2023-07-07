@@ -9,9 +9,9 @@ export function bfs(start_state: any) {
   const queue: any = [];
   const visitedSet = new Set();
   // add start state to queue and set
-  queue.push(boardAs2D)
+  queue.push([boardAs2D])
   console.log("first queue", queue.length)
-  console.log("first queue", queue[0])
+  console.log("first queue", queue[0][0])
   visitedSet.add(boardAsStr(boardAs2D))
   console.log({ boardAs2D })
   console.log({ visitedSet })
@@ -21,21 +21,35 @@ export function bfs(start_state: any) {
     // pop
     console.log("in while loop...")
     // removes first
-    const boardToCheck = queue.shift();
-    console.log({ boardToCheck })
-    const stringBoard = boardAsStr(boardToCheck);
+    const pathToCheck = queue.shift();
+    const lastIndex = pathToCheck.length - 1;
+    console.log(pathToCheck[lastIndex])
+    const stringBoard = boardAsStr(pathToCheck[lastIndex]);
     console.log({ stringBoard })
     visitedSet.add(stringBoard)
 
     console.log("visitedinWhile", visitedSet)
     // check if is solved
-    if (isSolved(boardToCheck)) {
+    if (isSolved(pathToCheck[lastIndex])) {
       // will need to implement paths/moves but just send back solved board for now
-      return boardToCheck;
+      return pathToCheck;
     }
     // if not add next states to queueue
     // make sure passin visitedSet here and adding to it is the same object
-    const nextStates = getNextStates(boardToCheck, visitedSet, queue);
+    // next states returns array 
+    // iterate through array returned and append to queue
+    const nextStates = getNextStates(pathToCheck[lastIndex], visitedSet, queue);
+
+    nextStates.map((nextState:any) => {
+      console.log("inmap", boardAsStr(nextState))
+      console.log("has", visitedSet.has(boardAsStr(nextState)))
+      if(!visitedSet.has(boardAsStr(nextState))){
+
+        visitedSet.add(boardAsStr(nextState));
+        pathToCheck.push(nextState);
+        queue.push(pathToCheck)
+      }
+    })
 
     // for(let i = 0; i < queue.length; i++) {
     //   console.log(queue[i])
@@ -69,11 +83,10 @@ function isSolved(board: any) {
   return true;
 }
 
-// move one piece, check  add to set
-
 
 // TODO: this overwrote a letter to solve
 export function getNextStates(board: any, seenStates: any, queue: any) {
+  const nextStates:any = [];
   const seenLetters = new Set<string>();
   for (let i = 0; i < BOARD_LEN; i++) {
     for (let j = 0; j < BOARD_LEN; j++) {
@@ -87,7 +100,7 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
           if (board[i][j] === board[i][j].toUpperCase()) {
             // add to seen letters
             seenLetters.add(board[i][j].toUpperCase());
-            horizontalStates(board, board[i][j].toUpperCase(), board[i], i, seenStates, queue)
+            horizontalStates(board, board[i][j].toUpperCase(), board[i], i, seenStates, queue, nextStates)
             // generate all left and right cases
             // check if in seenstates
             // if not 
@@ -98,7 +111,7 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
             // add to seen letters
 
             seenLetters.add(board[i][j].toUpperCase());
-            verticalStates(board, board[i][j].toLowerCase(), j, seenStates, queue)
+            verticalStates(board, board[i][j].toLowerCase(), j, seenStates, queue, nextStates)
             // generate all up and down cases
             // check if in seenstates
             // check if solved puzzle
@@ -109,6 +122,8 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
       }
     }
   }
+  return nextStates;
+
   // go through entire board position by position
   // find a letter, add it to a set as seen so we dont try to generate states again
   // if lowercase then its vertical and only check up and down moves
@@ -126,7 +141,7 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
   // might have that logic already in find diagonal neighbor
 }
 
-function horizontalStates(board: any, letter: any, row: any, rowIndex: number, seenStates: any, queue: any) {
+function horizontalStates(board: any, letter: any, row: any, rowIndex: number, seenStates: any, queue: any, nextStates:any) {
   console.log("horizontal...")
   // count empty spaces to right and left
   // loop and generate the same board but with the piece shifted accordingly every time
@@ -215,8 +230,9 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       // if(isSolved())
       // add to queue
       console.log("adding left move board")
-      queue.push(boardToAdd)
-      seenStates.add(boardAsStr(boardToAdd));
+      // queue.push(boardToAdd)
+      nextStates.push(boardToAdd)
+      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 
@@ -256,8 +272,9 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       // if(isSolved())
       // add to queue
 
-      queue.push(boardToAdd)
-      seenStates.add(boardAsStr(boardToAdd));
+      // queue.push(boardToAdd)
+      nextStates.push(boardToAdd)
+      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 }
@@ -298,7 +315,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
 
 
 
-function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, queue: any) {
+function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, queue: any, nextStates:any) {
   // count empty spaces up and down
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
@@ -369,8 +386,10 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
       // if(isSolved())
       // add to queue
 
-      queue.push(boardToAdd)
-      seenStates.add(boardAsStr(boardToAdd));
+      // queue.push(boardToAdd)
+      nextStates.push(boardToAdd)
+
+      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 
@@ -410,9 +429,10 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
       // check if solved
       // if(isSolved())
       // add to queue
+      // queue.push(boardToAdd)
+      nextStates.push(boardToAdd)
 
-      queue.push(boardToAdd)
-      seenStates.add(boardAsStr(boardToAdd));
+      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 

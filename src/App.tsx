@@ -4,6 +4,7 @@ import { ListOfPieces } from './ListOfPieces'
 import { bfs } from './Utilities/boardSolver'
 import { useMyContext } from './Context/ContextProvider'
 import { useState } from 'react'
+import { Board } from './Board'
 
 export enum Direction{
   vertical,
@@ -23,7 +24,7 @@ function App() {
       <ListOfPieces />
       <GameBoard />
       <button onClick={handleClickSolve}>Solve it!</button>
-      {solvedBoard ? <div>solved!</div> : <div>not solved...</div>}
+      {solvedBoard ? <div><div>solved!</div> <Board pathToDisplay={solvedBoard} /></div> : <div>not solved...</div>}
     </div>
   )
 }

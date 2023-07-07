@@ -59,14 +59,15 @@ test('test queue', () => {
   board[3][3] = "e";
 
   boardSet.add(boardAsStr(board));
-  queue.push(board);
+  queue.push([board]);
 
 
   expect(queue.length).toBe(1)
 
-  getNextStates(board, boardSet, queue)
+  const states = getNextStates(board, boardSet, queue)
+  console.log(states)
 
-  queue.map((b) => {
+  queue[0].map((b) => {
     console.log(boardAsStr(b))
   })
 
