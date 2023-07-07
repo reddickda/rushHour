@@ -11,7 +11,7 @@ export const Board = ({ pathToDisplay }: any) => {
   }
 
   const BoardBody = ({ board }: any) => {
-    return (<table style={{ height: "50%", width: "50%" }} cellPadding={0}>
+    return (<table cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>

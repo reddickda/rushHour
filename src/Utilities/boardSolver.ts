@@ -10,16 +10,21 @@ export function bfs(start_state: any) {
   const visitedSet = new Set();
   // add start state to queue and set
   queue.push([boardAs2D])
-  console.log("first queue", queue.length)
-  console.log("first queue", queue[0][0])
   visitedSet.add(boardAsStr(boardAs2D))
   console.log({ boardAs2D })
   console.log({ visitedSet })
 
   // mark as visisted (set), store as stringified?
+  // plies in original gives which indexes from the path to grab
+  // TODO: we are concatenating to one long array rather than the correct paths
+  // instead of adding all next states to each other and returning
+  // add each new state to LAST state
+  // ie. NOT first [board].append(new states)
+  // foreach[board].append(one more state)
+  let k = 0;
   while (queue.length !== 0) {
     // pop
-    console.log("in while loop...")
+    console.log("k", k)
     // removes first
     const pathToCheck = queue.shift();
     const lastIndex = pathToCheck.length - 1;
@@ -28,7 +33,10 @@ export function bfs(start_state: any) {
     console.log({ stringBoard })
     visitedSet.add(stringBoard)
 
-    console.log("visitedinWhile", visitedSet)
+    for(let i = 0; i < pathToCheck.length; i++) {
+      console.log(boardAsStr(pathToCheck[i]))
+    }
+
     // check if is solved
     if (isSolved(pathToCheck[lastIndex])) {
       // will need to implement paths/moves but just send back solved board for now
@@ -41,8 +49,6 @@ export function bfs(start_state: any) {
     const nextStates = getNextStates(pathToCheck[lastIndex], visitedSet, queue);
 
     nextStates.map((nextState:any) => {
-      console.log("inmap", boardAsStr(nextState))
-      console.log("has", visitedSet.has(boardAsStr(nextState)))
       if(!visitedSet.has(boardAsStr(nextState))){
 
         visitedSet.add(boardAsStr(nextState));
@@ -56,6 +62,7 @@ export function bfs(start_state: any) {
     // }
 
     console.log("nextqueue", queue.length)
+    k=k+1
   }
 }
 
