@@ -12,7 +12,7 @@ export enum Direction{
 }
 
 function App() {
-  const { state } = useMyContext();
+  const { state, clearBoard } = useMyContext();
   const [solvedBoard, setSolvedBoard] = useState<any>();
 
   const handleClickSolve = () => {
@@ -24,7 +24,8 @@ function App() {
       <ListOfPieces />
       <GameBoard />
       <button onClick={handleClickSolve}>Solve it!</button>
-      {solvedBoard ? <div><div>solved!</div> <Board pathToDisplay={solvedBoard} /></div> : <div>not solved...</div>}
+      <button onClick={() => clearBoard()}>Clear board</button>
+      {solvedBoard ? <div style={{borderRadius: 5, backgroundColor: 'green'}}><div>solved!</div> <Board pathToDisplay={solvedBoard} /></div> : <div>not solved...</div>}
     </div>
   )
 }

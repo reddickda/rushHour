@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BOARD_LEN, checkForDiagonals, hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
+import { letterColors } from "./ListOfPieces";
 
 export interface ITablePiece {
   key: number;
@@ -8,7 +9,7 @@ export interface ITablePiece {
 }
 
 export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-export const THREEPIECES = ['I', 'J', 'K']
+export const THREEPIECES = ['I', 'J', 'K', 'L']
 
 export function GameBoard() {
   const { state, updateHashedBoard } = useMyContext();
@@ -88,7 +89,7 @@ export function GameBoard() {
           onMouseEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
         // onClick={() => handleCellClick(cellIndex, rowIndex)}
-        ><button style={{ userSelect: 'none' }}>{td}</button></td>
+        ><button style={{ backgroundColor: letterColors[td.toUpperCase()], userSelect: 'none' }}>{td}</button></td>
       })}</tr>
     })
   }

@@ -1,6 +1,7 @@
 import { THREEPIECES, TWOPIECES } from "../GameBoard";
 import { BOARD_LEN, boardAsStr, convertFlatArrayTo2D, copyBoard } from "./boardHelpers";
 
+let k = 0;
 
 // TODO: double check logic and add traceback
 export function bfs(start_state: any) {
@@ -21,7 +22,6 @@ export function bfs(start_state: any) {
   // add each new state to LAST state
   // ie. NOT first [board].append(new states)
   // foreach[board].append(one more state)
-  let k = 0;
   while (queue.length !== 0) {
     // pop
     console.log("k", k)
@@ -52,8 +52,8 @@ export function bfs(start_state: any) {
       if(!visitedSet.has(boardAsStr(nextState))){
 
         visitedSet.add(boardAsStr(nextState));
-        pathToCheck.push(nextState);
-        queue.push(pathToCheck)
+        // pathToCheck.push(nextState);
+        queue.push([...pathToCheck, nextState])
       }
     })
 
@@ -61,6 +61,10 @@ export function bfs(start_state: any) {
     //   console.log(queue[i])
     // }
 
+    if(queue.length === 0) {
+      console.log("unsolvable");
+      alert("not solvable")
+    }
     console.log("nextqueue", queue.length)
     k=k+1
   }
@@ -163,7 +167,12 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
   let leftMoves = 0;
   let rightMoves = 0;
   let leftSide = true;
+  let blockedRight = false;
   for (let i = 0; i < BOARD_LEN; i++) {
+    // if(leftSide && i === 0 && row[i] === letter) {
+    //   leftSide = false;
+    //   console.log("first case", letter)
+    // }
     // console.log(leftSide, i, row[i])
     if (leftSide && row[i] === "_") {
       // console.log("left move + 1")
@@ -175,14 +184,23 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       // console.log("left side false")
 
       leftSide = false;
-    } else if (!leftSide && row[i] === "_") {
+    } else if (!leftSide && row[i] === "_" && !blockedRight) {
       // console.log("right move + 1")
+      if(letter === 'A') {
+        console.log("Yay A!", blockedRight, row[i])
+        console.log(boardAsStr(board))
+      }
 
       rightMoves = rightMoves + 1;
     } else if (!leftSide && row[i] !== "_" && row[i] !== letter) {
       // console.log("other")
-      rightMoves = 0;
+      // rightMoves = 0;
+      blockedRight = true;
 
+      // if(letter === 'A') {
+      //   console.log("Yay A!", blockedRight, row[i])
+      //   console.log(boardAsStr(board))
+      // }
     }
   }
 
@@ -321,7 +339,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
 // }
 
 
-
+// TODO somehow just two k's moved?
 function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, queue: any, nextStates:any) {
   // count empty spaces up and down
   // loop and generate the same board but with the piece shifted accordingly every time
@@ -331,11 +349,17 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
   let upMoves = 0;
   let downMoves = 0;
   let above = true;
+  let blockedDown = false;
 
   const columnAsArray = [];
   for (let i = 0; i < BOARD_LEN; i++) {
     columnAsArray.push(board[i][columnIndex]);
-    if (above && board[i][columnIndex] === "_") {
+  }
+  for (let i = 0; i < BOARD_LEN; i++) {
+    if(above && i === 0 && board[i][columnIndex] === letter){
+      above = false;
+    }
+    else if (above && board[i][columnIndex] === "_") {
       upMoves = upMoves + 1;
       // console.log("upmove + 1")
     } else if (above && board[i][columnIndex] !== "_" && board[i][columnIndex] !== letter) {
@@ -343,12 +367,20 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
       upMoves = 0;
     } else if (above && board[i][columnIndex] === letter) {
       above = false;
-    } else if (!above && board[i][columnIndex] === "_") {
+    } else if (!above && board[i][columnIndex] === "_" && !blockedDown) {
       downMoves = downMoves + 1;
-    } else {
+      console.log(board[i][columnIndex])
+    } else if(!above && board[i][columnIndex] !== letter && board[i][columnIndex] !== "_") {
+      blockedDown = true;
+    }
+    else {
+      // TODO we are overwriting here if k is vert over h
       downMoves = 0;
     }
   }
+
+  console.log(columnAsArray)
+
 
   console.log({ upMoves, downMoves })
 

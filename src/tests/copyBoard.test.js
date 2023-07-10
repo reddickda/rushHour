@@ -1,7 +1,7 @@
 import exp from "constants";
 import { copyBoard, initialBoard, boardAsStr, convertFlatArrayTo2D, flattenBoard } from "../Utilities/boardHelpers"
 import { assert, expect, test } from 'vitest'
-import { getNextStates} from "../Utilities/boardSolver"
+import { getNextStates, bfs} from "../Utilities/boardSolver"
 
 // test('test copy board', () => {
 //   const board = initialBoard();
@@ -76,34 +76,88 @@ import { getNextStates} from "../Utilities/boardSolver"
 //   // expect(queue.pop()).toStrictEqual(board)
 // })
 
-test('test simple', () => {
+
+// test('test simple', () => {
+//   const boardSet = new Set();
+//   const queue = [];
+
+//   const board = initialBoard();
+//   board[2][1] = "A";
+//   board[2][2] = "A";
+
+//   board[2][5] = "k";
+//   board[3][5] = "k";
+//   board[4][5] = "k";
+
+//   console.log(boardAsStr(board))
+
+//   boardSet.add(boardAsStr(board));
+//   queue.push([board]);
+
+
+//   expect(queue.length).toBe(1)
+
+//   const states = getNextStates(board, boardSet, queue)
+//   console.log(states)
+
+//   console.log("womp", queue[0])
+//   queue[0].map((b) => {
+//     console.log("asdkas")
+//     console.log(boardAsStr(b))
+//   })
+
+//   // expect(queue.length).toBe(4)
+
+//   // expect(queue.pop()).toStrictEqual(board)
+// })
+
+// test('test right moves', () => {
+//   const boardSet = new Set();
+//   const queue = [];
+
+//   const board = initialBoard();
+//   board[2][3] = "A";
+//   board[2][4] = "A";
+
+//   board[1][5] = "k";
+//   board[2][5] = "k";
+//   board[3][5] = "k";
+
+//   board[4][5] = "h";
+//   board[5][5] = "h";
+
+//   board[0][4] = "F"
+//   board[0][5] = "F"
+
+//   const states = getNextStates(board, boardSet, queue)
+
+
+//   console.log(states)
+
+// })
+
+test('test full solve', () => {
   const boardSet = new Set();
   const queue = [];
 
   const board = initialBoard();
-  board[2][1] = "A";
-  board[2][2] = "A";
+  board[2][3] = "A";
+  board[2][4] = "A";
 
+  board[1][5] = "k";
   board[2][5] = "k";
   board[3][5] = "k";
-  board[4][5] = "k";
 
-  console.log(boardAsStr(board))
+  board[4][5] = "h";
+  board[5][5] = "h";
 
-  boardSet.add(boardAsStr(board));
-  queue.push([board]);
+  board[0][4] = "F"
+  board[0][5] = "F"
 
+  // const states = getNextStates(board, boardSet, queue)
 
-  expect(queue.length).toBe(1)
+  bfs(flattenBoard(board))
 
-  const states = getNextStates(board, boardSet, queue)
-  console.log(states)
+  // console.log(states)
 
-  queue[0].map((b) => {
-    console.log(boardAsStr(b))
-  })
-
-  // expect(queue.length).toBe(4)
-
-  // expect(queue.pop()).toStrictEqual(board)
 })

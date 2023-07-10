@@ -26,8 +26,15 @@ export const ContextProvider = ({ children }: any) => {
       }));
   }
 
+  const clearBoard = () => {
+    setState(prevState => (
+      {
+        ...prevState, boardAsAHashedSet: initialBoardAsHashedSet()
+      }));
+  }
+
   return (
-    <MyContext.Provider value={{ state, setSelectedPiece, updateHashedBoard }}>
+    <MyContext.Provider value={{ state, setSelectedPiece, updateHashedBoard, clearBoard }}>
       {children}
     </MyContext.Provider>
   );
