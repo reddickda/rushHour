@@ -10,7 +10,6 @@ export function LengthTwoPiece({letterRepresentation, color}: {letterRepresentat
   }
 
   const handleClick = () => {
-    console.log('clicked', letterRepresentation)
     setSelectedPiece(letterRepresentation)
   }
 
