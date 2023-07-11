@@ -28,14 +28,10 @@ export function bfs(start_state: any) {
     // removes first
     const pathToCheck = queue.shift();
     const lastIndex = pathToCheck.length - 1;
-    console.log(pathToCheck[lastIndex])
     const stringBoard = boardAsStr(pathToCheck[lastIndex]);
-    console.log({ stringBoard })
     visitedSet.add(stringBoard)
 
-    for(let i = 0; i < pathToCheck.length; i++) {
-      console.log(boardAsStr(pathToCheck[i]))
-    }
+
 
     // check if is solved
     if (isSolved(pathToCheck[lastIndex])) {
@@ -73,13 +69,11 @@ export function bfs(start_state: any) {
 function isSolved(board: any) {
   let aPieceFound = false;
   // Find any obstacles between the red truck and the right edge.
-  console.log("checking solve...")
   for (let i = 0; i < BOARD_LEN; i++) {
     if (!aPieceFound && board[2][i] === 'A') {
       aPieceFound = true;
     }
     if (aPieceFound && board[2][i] !== '_' && board[2][i] !== 'A') {
-      console.log("not solved...")
       return false
     }
   }
@@ -88,8 +82,6 @@ function isSolved(board: any) {
     return false;
   }
 
-  console.log(boardAsStr(board))
-  console.log("solved!")
   alert("Solved!")
   return true;
 }
@@ -106,7 +98,6 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
         // if not already moved ie. states with this piece moved added
         // store as uppercase
         if (!seenLetters.has(board[i][j].toUpperCase())) {
-          console.log("seen", board[i][j])
           // if its uppercase
           if (board[i][j] === board[i][j].toUpperCase()) {
             // add to seen letters
@@ -153,7 +144,6 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
 }
 
 function horizontalStates(board: any, letter: any, row: any, rowIndex: number, seenStates: any, queue: any, nextStates:any) {
-  console.log("horizontal...")
   // count empty spaces to right and left
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
@@ -186,10 +176,6 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       leftSide = false;
     } else if (!leftSide && row[i] === "_" && !blockedRight) {
       // console.log("right move + 1")
-      if(letter === 'A') {
-        console.log("Yay A!", blockedRight, row[i])
-        console.log(boardAsStr(board))
-      }
 
       rightMoves = rightMoves + 1;
     } else if (!leftSide && row[i] !== "_" && row[i] !== letter) {
@@ -204,7 +190,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     }
   }
 
-  console.log({ leftMoves, rightMoves })
+  // console.log({ leftMoves, rightMoves })
 
 
   // now you have left and right amounts
@@ -218,7 +204,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
   const firstIndex = row.indexOf(letter);
   const lastIndex = row.lastIndexOf(letter);
 
-  console.log({ firstIndex, lastIndex })
+  // console.log({ firstIndex, lastIndex })
 
   for (let i = 0; i < leftMoves; i++) {
     // build new board
@@ -227,7 +213,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     if (THREEPIECES.includes(letter)) {
       const secondIndex = lastIndex - 1;
       if (firstIndex - i - 1 >= 0) { // [_,K,K,K,_,_]
-        console.log("three piece moving left")
+        // console.log("three piece moving left")
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][secondIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
@@ -238,7 +224,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       }
     } else if (TWOPIECES.includes(letter)) {
       if (firstIndex - i - 1 >= 0) { // [_,K,K,K,_,_]
-        console.log("two piece moving left")
+        // console.log("two piece moving left")
 
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
@@ -248,13 +234,13 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       }
     }
 
-    console.log("before add", boardAsStr(boardToAdd))
+    // console.log("before add", boardAsStr(boardToAdd))
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
       // if(isSolved())
       // add to queue
-      console.log("adding left move board")
+      // console.log("adding left move board")
       // queue.push(boardToAdd)
       nextStates.push(boardToAdd)
       // seenStates.add(boardAsStr(boardToAdd));
@@ -269,7 +255,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     if (THREEPIECES.includes(letter)) {
       const secondIndex = lastIndex - 1;
       if (firstIndex + i + 1 <= BOARD_LEN) { // [_,K,K,K,_,_]
-        console.log("three piece moving right")
+        // console.log("three piece moving right")
 
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][secondIndex] = "_";
@@ -281,7 +267,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       }
     } else if (TWOPIECES.includes(letter)) {
       if (firstIndex + i + 1 <= BOARD_LEN) { // [_,K,K,K,_,_]
-        console.log("two piece moving right")
+        // console.log("two piece moving right")
 
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
@@ -344,7 +330,7 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
   // count empty spaces up and down
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
-  console.log("vertical")
+  // console.log("vertical")
 
   let upMoves = 0;
   let downMoves = 0;
@@ -369,7 +355,7 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
       above = false;
     } else if (!above && board[i][columnIndex] === "_" && !blockedDown) {
       downMoves = downMoves + 1;
-      console.log(board[i][columnIndex])
+      // console.log(board[i][columnIndex])
     } else if(!above && board[i][columnIndex] !== letter && board[i][columnIndex] !== "_") {
       blockedDown = true;
     }
@@ -379,15 +365,15 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
     }
   }
 
-  console.log(columnAsArray)
+  // console.log(columnAsArray)
 
 
-  console.log({ upMoves, downMoves })
+  // console.log({ upMoves, downMoves })
 
   const firstIndex = columnAsArray.indexOf(letter);
   const lastIndex = columnAsArray.lastIndexOf(letter);
 
-  console.log({ firstIndex, lastIndex })
+  // console.log({ firstIndex, lastIndex })
 
   /// Up moves
   for (let i = 0; i < upMoves; i++) {
@@ -397,7 +383,6 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
     if (THREEPIECES.includes(letter.toUpperCase())) {
       const secondIndex = lastIndex - 1;
       if (firstIndex - i - 1 >= 0) { // [_,K,K,K,_,_]
-        console.log("three piece moving up")
         boardToAdd[firstIndex][columnIndex] = "_";
         boardToAdd[secondIndex][columnIndex] = "_";
         boardToAdd[lastIndex][columnIndex] = "_";
@@ -408,7 +393,6 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
       }
     } else if (TWOPIECES.includes(letter.toUpperCase())) {
       if (firstIndex - i - 1 >= 0) { // [_,K,K,K,_,_]
-        console.log("two piece moving up")
 
         boardToAdd[firstIndex][columnIndex] = "_";
         boardToAdd[lastIndex][columnIndex] = "_";
@@ -417,7 +401,6 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
         boardToAdd[lastIndex - i - 1][columnIndex] = letter;
       }
     }
-    console.log("before add up", boardAsStr(boardToAdd))
 
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
@@ -440,7 +423,6 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
     if (THREEPIECES.includes(letter.toUpperCase())) {
       const secondIndex = lastIndex - 1;
       if (firstIndex + i + 1 <= BOARD_LEN) { // [_,K,K,K,_,_]
-        console.log("three piece moving down")
         boardToAdd[firstIndex][columnIndex] = "_";
         boardToAdd[secondIndex][columnIndex] = "_";
         boardToAdd[lastIndex][columnIndex] = "_";
@@ -451,7 +433,6 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
       }
     } else if (TWOPIECES.includes(letter.toUpperCase())) {
       if (firstIndex + i + 1 <= BOARD_LEN) { // [_,K,K,K,_,_]
-        console.log("two piece moving down")
 
         boardToAdd[firstIndex][columnIndex] = "_";
         boardToAdd[lastIndex][columnIndex] = "_";
@@ -460,7 +441,6 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
         boardToAdd[lastIndex + i + 1][columnIndex] = letter;
       }
     }
-    console.log("before add down", boardAsStr(boardToAdd))
 
     // check new board in seen
     // console.log(seenStates.has(boardAsStr(boardToAdd)))

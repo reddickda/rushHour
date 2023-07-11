@@ -25,7 +25,7 @@ export function GameBoard() {
       }
     }
     setIsDragging(true);
-    console.log("dragging...")
+    // console.log("dragging...")
   }
 
   // dragging is true from a mouse down 
@@ -34,7 +34,7 @@ export function GameBoard() {
   const handleCellMouseEnter = (rowIndex: number, cellIndex: number) => {
 
     if (isDragging) {
-      console.log("entered...")
+      // console.log("entered...")
       handlePiecePlacementDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag)
     }
   };
@@ -124,7 +124,7 @@ function handleTwoPieceSelectionDrag(state: { selectedPiece: string; }, cellInde
         setSpacesFromDrag(spacesFromDrag.add({ key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }))
       }
     } else {
-      console.log("adding two...")
+      // console.log("adding two...")
       const toAdd: ITablePiece = { key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }
       setSpacesFromDrag(() => spacesFromDrag.add(toAdd))
     }
@@ -134,10 +134,10 @@ function handleTwoPieceSelectionDrag(state: { selectedPiece: string; }, cellInde
 function handleThreePieceSelectionDrag(state: { selectedPiece: string; }, cellIndex: number, rowIndex: number, spacesFromDrag: { size: number; add: (arg0: ITablePiece) => any; }, setSpacesFromDrag: (arg0: () => any) => void) {
   if (THREEPIECES.includes(state.selectedPiece) && spacesFromDrag.size < 3) {
     // if its A then add special constraint to have to be on row 3
-    console.log("adding three...")
+    // console.log("adding three...")
     // console.log(cellIndex, rowIndex)
     const toAdd: ITablePiece = { key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }
-    console.log(toAdd)
+    // console.log(toAdd)
     // spacesFromDrag.add(toAdd) // callbac
     setSpacesFromDrag(() => spacesFromDrag.add(toAdd))
     // updatedSelectedBoardSpaces(hashPair(cellIndex, rowIndex));

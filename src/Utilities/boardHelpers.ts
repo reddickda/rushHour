@@ -228,14 +228,14 @@ export function addNewPiece(hashedPieces: Set<ITablePiece>, board: Set<ITablePie
 
   // convert hashed board back to 2d board
   const convertedBoard = convertFlatArrayTo2D(cleanedBoard);
-  console.log({convertedBoard})
+  // console.log({convertedBoard})
 
   // check for vertical pieces and set to lowercase
   const lowercasedBoard = checkIfPiecesVertical(convertedBoard);
 
   // convert back to hashed board
-  const flattenedBoard = flattenBoard(lowercasedBoard);
-  console.log("flatTo2D", convertFlatArrayTo2D(flattenedBoard))
+  // const flattenedBoard = flattenBoard(lowercasedBoard);
+  // console.log("flatTo2D", convertFlatArrayTo2D(flattenedBoard))
   return flattenBoard(lowercasedBoard);
 }
 
