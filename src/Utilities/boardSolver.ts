@@ -42,7 +42,7 @@ export function bfs(start_state: any) {
     // make sure passin visitedSet here and adding to it is the same object
     // next states returns array 
     // iterate through array returned and append to queue
-    const nextStates = getNextStates(pathToCheck[lastIndex], visitedSet, queue);
+    const nextStates = getNextStates(pathToCheck[lastIndex], visitedSet);
 
     nextStates.map((nextState:any) => {
       if(!visitedSet.has(boardAsStr(nextState))){
@@ -88,7 +88,7 @@ function isSolved(board: any) {
 
 
 // TODO: this overwrote a letter to solve
-export function getNextStates(board: any, seenStates: any, queue: any) {
+export function getNextStates(board: any, seenStates: any) {
   const nextStates:any = [];
   const seenLetters = new Set<string>();
   for (let i = 0; i < BOARD_LEN; i++) {
