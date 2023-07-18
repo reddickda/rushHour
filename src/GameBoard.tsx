@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BOARD_LEN, checkForDiagonals, hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
+import { checkForDiagonals, hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
 import { letterColors } from "./ListOfPieces";
 
@@ -17,7 +17,7 @@ export function GameBoard() {
   const [spacesFromDrag, setSpacesFromDrag] = useState(new Set<ITablePiece>());
 
   // starting mouse down
-  const handleMouseDown = (cellIndex: number, rowIndex: number) => {
+  const handleMouseDown = (rowIndex: number) => {
     // check if piece is red and initial seleciton isnt in row 3
     if (state.selectedPiece === 'A') {
       if (rowIndex !== 2) {
@@ -84,7 +84,7 @@ export function GameBoard() {
     return initial2DBoard.map((row: [], rowIndex: number) => {
       return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
         return <td
-          onMouseDown={() => handleMouseDown(cellIndex, rowIndex)}
+          onMouseDown={() => handleMouseDown(rowIndex)}
           onMouseUp={handleMouseUp}
           onMouseEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}

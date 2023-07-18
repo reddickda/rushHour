@@ -102,7 +102,7 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
           if (board[i][j] === board[i][j].toUpperCase()) {
             // add to seen letters
             seenLetters.add(board[i][j].toUpperCase());
-            horizontalStates(board, board[i][j].toUpperCase(), board[i], i, seenStates, queue, nextStates)
+            horizontalStates(board, board[i][j].toUpperCase(), board[i], i, seenStates, nextStates)
             // generate all left and right cases
             // check if in seenstates
             // if not 
@@ -113,7 +113,7 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
             // add to seen letters
 
             seenLetters.add(board[i][j].toUpperCase());
-            verticalStates(board, board[i][j].toLowerCase(), j, seenStates, queue, nextStates)
+            verticalStates(board, board[i][j].toLowerCase(), j, seenStates, nextStates)
             // generate all up and down cases
             // check if in seenstates
             // check if solved puzzle
@@ -143,7 +143,7 @@ export function getNextStates(board: any, seenStates: any, queue: any) {
   // might have that logic already in find diagonal neighbor
 }
 
-function horizontalStates(board: any, letter: any, row: any, rowIndex: number, seenStates: any, queue: any, nextStates:any) {
+function horizontalStates(board: any, letter: any, row: any, rowIndex: number, seenStates: any, nextStates:any) {
   // count empty spaces to right and left
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
@@ -326,7 +326,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
 
 
 // TODO somehow just two k's moved?
-function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, queue: any, nextStates:any) {
+function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, nextStates:any) {
   // count empty spaces up and down
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
