@@ -2,13 +2,14 @@ import { useState } from "react";
 import { checkForDiagonals, hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
 import { letterColors } from "./ListOfPieces";
+import flag from './assets/flag.svg'
 
 export interface ITablePiece {
   key: number;
   piece: string;
 }
 
-export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I', 'J', 'K'];
+export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
 export const THREEPIECES = ['L', 'M', 'N', 'O']
 
 export function GameBoard() {
@@ -21,6 +22,7 @@ export function GameBoard() {
     // check if piece is red and initial seleciton isnt in row 3
     if (state.selectedPiece === 'A') {
       if (rowIndex !== 2) {
+        alert('Red car must go on the 3rd row!')
         return;
       }
     }
@@ -78,20 +80,51 @@ export function GameBoard() {
       initial2DBoard[unhashedPiece.y][unhashedPiece.x] = hashedPiece.piece;
     })
 
+
     return initial2DBoard.map((row: [], rowIndex: number) => {
-      return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
+      let isExitRow = false
+      let isExitCell = false;
+      if (rowIndex === 2) {
+        isExitRow = true;
+      }
+      return <tr style={{}} key={rowIndex}>{row.map((td: string, cellIndex: number) => {
+        if (cellIndex === 5) {
+          isExitCell = true;
+        }
+
         return <td
           onPointerDown={() => handleMouseDown(rowIndex)}
           onPointerUp={handleMouseUp}
           onPointerEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
-        ><button style={{ height: 50, width: 50, backgroundColor: letterColors[td.toUpperCase()], userSelect: 'none' }}></button></td>
+        ><button style={{
+          // background: isExitRow && isExitCell ? 'repeating-conic-gradient(white 0% 25%, black 0% 50%) 50%/ 20px 20px' : undefined,
+          height: 50,
+          width: 50,
+          backgroundColor: letterColors[td.toUpperCase()],
+          userSelect: 'none',
+        }}>
+            {isExitRow && isExitCell &&
+              <div style={{
+                height: '30px',
+                width: 20,
+                position: 'relative',
+                left: '35px',
+                borderRadius: 5,
+                borderColor: 'black',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                background: 'repeating-conic-gradient(white 0% 25%, black 0% 50%) 50%/ 10px 10px'
+              }}></div>
+            }
+          </button>
+        </td>
       })}</tr>
     })
   }
 
   return (
-    <table style={{touchAction: 'none'}} onMouseLeave={handleTableLeave} cellPadding={0}>
+    <table style={{ touchAction: 'none' }} onMouseLeave={handleTableLeave} cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>

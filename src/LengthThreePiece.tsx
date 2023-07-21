@@ -1,10 +1,10 @@
 import { useMyContext } from './Context/ContextProvider';
 
-export function LengthThreePiece({letterRepresentation, color}: {letterRepresentation: string, color: string} ){
-  const { setSelectedPiece } = useMyContext();
+export function LengthThreePiece({ letterRepresentation, color }: { letterRepresentation: string, color: string }) {
+  const { setSelectedPiece, state } = useMyContext();
 
   const childStyle: React.CSSProperties = {
-    float:'left',
+    float: 'left',
     width: '33.33%',
     backgroundColor: color
   }
@@ -13,5 +13,13 @@ export function LengthThreePiece({letterRepresentation, color}: {letterRepresent
     setSelectedPiece(letterRepresentation)
   }
 
-  return (<button id={letterRepresentation} onClick={handleClick} style={{width: 80,height:30, padding: 2, backgroundColor: color}}><div style={childStyle}></div><div style={childStyle}></div><div style={childStyle}></div></button>)
+  return (<button id={letterRepresentation} onClick={handleClick} style={{
+    borderStyle: state.selectedPiece === letterRepresentation ? 'solid' : undefined,
+    borderWidth: state.selectedPiece === letterRepresentation ? '3px' : undefined,
+    borderColor: state.selectedPiece === letterRepresentation ? 'black' : undefined,
+    width: 80,
+    height: 30,
+    padding: 2,
+    backgroundColor: color
+  }}><div style={childStyle}></div><div style={childStyle}></div><div style={childStyle}></div></button>)
 }
