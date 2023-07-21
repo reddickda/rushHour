@@ -55,10 +55,15 @@ function App() {
           </div>
         </>}
       </div>
-      <div><a target="_blank" href="https://www.amazon.com/gp/search?ie=UTF8&tag=dreddick-20&linkCode=ur2&linkId=9ef5790b3be96d5ea3b119733363d71d&camp=1789&creative=9325&index=toys-and-games&keywords=rushhourgame">Purchase your own Rush Hour game here!</a></div>
+      <div>
+        <a target="_blank" href="https://www.amazon.com/ThinkFun-Rush-Traffic-Logic-Girls/dp/B00000DMER/ref=sr_1_4?camp=1789&creative=9325&keywords=rush+hour+game&linkCode=ur2&linkId=9ef5790b3be96d5ea3b119733363d71d&qid=1689951232&s=toys-and-games&sr=1-4&_encoding=UTF8&tag=dreddick-20&linkCode=ur2&linkId=966e5b78d9cf24a3e03af0082583651a&camp=1789&creative=9325">Purchase your own Rush Hour game here!</a>
+      </div>
+      <div>
+        <a target="_blank" href="https://www.amazon.com/ThinkFun-Junior-Traffic-Logic-Girls/dp/B00GRV5JNY/ref=sr_1_4?camp=1789&creative=9325&keywords=rush+hour+game&linkCode=ur2&linkId=9ef5790b3be96d5ea3b119733363d71d&qid=1689951149&s=toys-and-games&sr=1-4&_encoding=UTF8&tag=dreddick-20&linkCode=ur2&linkId=17c1237c4c6076b99c7a463da8e7ae9f&camp=1789&creative=9325">Rush Hour Junior for kids!</a>
+      </div>
       <p>Like this? Let me know! </p>
-      <p>reddickdav@gmail.com</p>
-      <p>davidfullstack.com</p>
+      <div style={{fontSize:14}}>reddickdav@gmail.com</div>
+      <div style={{fontSize:14}}>davidfullstack.com</div>
       {open && <div style={{
         left: 0,
         right: 0,
