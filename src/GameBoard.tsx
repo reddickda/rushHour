@@ -91,7 +91,7 @@ export function GameBoard() {
   }
 
   return (
-    <table  style={{touchAction: 'none'}} onMouseLeave={handleTableLeave} cellPadding={0}>
+    <table style={{touchAction: 'none'}} onMouseLeave={handleTableLeave} cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>
