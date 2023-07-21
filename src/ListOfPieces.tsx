@@ -28,11 +28,6 @@ export function ListOfPieces() {
   const { state } = useMyContext();
 
   const pieceMap = getPieceCountsFromBoard(state.boardAsAHashedSet);
-  console.log(state.board)
-  console.log({pieceMap})
-  console.log(pieceMap.get('A'))
-  console.log(pieceMap.get('K'))
-
 
   return <>
     <div style={{display:'flex', backgroundColor: '#242424', padding:10, borderRadius:10}}>
