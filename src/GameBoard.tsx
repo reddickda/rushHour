@@ -17,7 +17,7 @@ export function GameBoard() {
   const [spacesFromDrag, setSpacesFromDrag] = useState(new Set<ITablePiece>());
 
   // starting mouse down
-  const handleMouseDown = (rowIndex: number, event: any) => {
+  const handleMouseDown = (rowIndex: number) => {
     // check if piece is red and initial seleciton isnt in row 3
     if (state.selectedPiece === 'A') {
       if (rowIndex !== 2) {
@@ -81,7 +81,7 @@ export function GameBoard() {
     return initial2DBoard.map((row: [], rowIndex: number) => {
       return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
         return <td
-          onPointerDown={(event) => handleMouseDown(rowIndex, event)}
+          onPointerDown={() => handleMouseDown(rowIndex)}
           onPointerUp={handleMouseUp}
           onPointerEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
