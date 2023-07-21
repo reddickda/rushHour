@@ -12,7 +12,7 @@ export const Board = ({ pathToDisplay }: any) => {
   }
 
   const BoardBody = ({ board }: any) => {
-    return (<table cellPadding={0}>
+    return (<table style={{marginLeft: 'auto', marginRight: 'auto'}} cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>

@@ -17,7 +17,7 @@ export function GameBoard() {
   const [spacesFromDrag, setSpacesFromDrag] = useState(new Set<ITablePiece>());
 
   // starting mouse down
-  const handleMouseDown = (rowIndex: number) => {
+  const handleMouseDown = (rowIndex: number, event: any) => {
     // check if piece is red and initial seleciton isnt in row 3
     if (state.selectedPiece === 'A') {
       if (rowIndex !== 2) {
@@ -31,7 +31,6 @@ export function GameBoard() {
   // make sure drag isnt over 2 for two piece and 3 for three piece
   // check that the piece isnt already on the board
   const handleCellMouseEnter = (rowIndex: number, cellIndex: number) => {
-
     if (isDragging) {
       handlePiecePlacementDrag(state, cellIndex, rowIndex, spacesFromDrag, setSpacesFromDrag)
     }
@@ -82,18 +81,17 @@ export function GameBoard() {
     return initial2DBoard.map((row: [], rowIndex: number) => {
       return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
         return <td
-          onMouseDown={() => handleMouseDown(rowIndex)}
-          onMouseUp={handleMouseUp}
-          onMouseEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
+          onPointerDown={(event) => handleMouseDown(rowIndex, event)}
+          onPointerUp={handleMouseUp}
+          onPointerEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
-        // onClick={() => handleCellClick(cellIndex, rowIndex)}
         ><button style={{ height: 50, width: 50, backgroundColor: letterColors[td.toUpperCase()], userSelect: 'none' }}></button></td>
       })}</tr>
     })
   }
 
   return (
-    <table onMouseLeave={handleTableLeave} cellPadding={0}>
+    <table  style={{touchAction: 'none'}} onMouseLeave={handleTableLeave} cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>
