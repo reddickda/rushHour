@@ -2,7 +2,6 @@ import { useState } from "react";
 import { checkForDiagonals, hashPair, initialBoard, unhashPair } from "./Utilities/boardHelpers";
 import { useMyContext } from './Context/ContextProvider';
 import { letterColors } from "./ListOfPieces";
-import flag from './assets/flag.svg'
 
 export interface ITablePiece {
   key: number;
@@ -98,7 +97,6 @@ export function GameBoard() {
           onPointerEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
         ><button style={{
-          // background: isExitRow && isExitCell ? 'repeating-conic-gradient(white 0% 25%, black 0% 50%) 50%/ 20px 20px' : undefined,
           height: 50,
           width: 50,
           backgroundColor: letterColors[td.toUpperCase()],
@@ -153,7 +151,6 @@ function handleTwoPieceSelectionDrag(state: { selectedPiece: string; }, cellInde
         setSpacesFromDrag(spacesFromDrag.add({ key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }))
       }
     } else {
-      // console.log("adding two...")
       const toAdd: ITablePiece = { key: hashPair(cellIndex, rowIndex), piece: state.selectedPiece }
       setSpacesFromDrag(() => spacesFromDrag.add(toAdd))
     }
