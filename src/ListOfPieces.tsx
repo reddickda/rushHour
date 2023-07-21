@@ -41,17 +41,3 @@ export function ListOfPieces() {
     </div>
   </ul>
 }
-
-// const letterColors = {
-//   'A': 'red',
-//   'B': 'orange',
-//   'C': 'green',
-//   'D': 'lightblue',
-//   'E': 'pink',
-//   'F': 'darkgreen',
-//   'G': 'purple',
-//   'H': 'tan',
-//   'K': 'yellow',
-//   'I': 'blue',
-//   'J': 'lightpurple',
-// }

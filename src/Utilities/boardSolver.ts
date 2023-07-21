@@ -15,16 +15,7 @@ export function bfs(start_state: any) {
   console.log({ boardAs2D })
   console.log({ visitedSet })
 
-  // mark as visisted (set), store as stringified?
-  // plies in original gives which indexes from the path to grab
-  // TODO: we are concatenating to one long array rather than the correct paths
-  // instead of adding all next states to each other and returning
-  // add each new state to LAST state
-  // ie. NOT first [board].append(new states)
-  // foreach[board].append(one more state)
   while (queue.length !== 0) {
-    // pop
-    console.log("k", k)
     // removes first
     const pathToCheck = queue.shift();
     const lastIndex = pathToCheck.length - 1;
@@ -48,17 +39,11 @@ export function bfs(start_state: any) {
       if(!visitedSet.has(boardAsStr(nextState))){
 
         visitedSet.add(boardAsStr(nextState));
-        // pathToCheck.push(nextState);
         queue.push([...pathToCheck, nextState])
       }
     })
 
-    // for(let i = 0; i < queue.length; i++) {
-    //   console.log(queue[i])
-    // }
-
     if(queue.length === 0) {
-      console.log("unsolvable");
       alert("not solvable")
     }
     console.log("nextqueue", queue.length)
@@ -86,8 +71,6 @@ function isSolved(board: any) {
   return true;
 }
 
-
-// TODO: this overwrote a letter to solve
 export function getNextStates(board: any, seenStates: any) {
   const nextStates:any = [];
   const seenLetters = new Set<string>();
@@ -125,73 +108,29 @@ export function getNextStates(board: any, seenStates: any) {
     }
   }
   return nextStates;
-
-  // go through entire board position by position
-  // find a letter, add it to a set as seen so we dont try to generate states again
-  // if lowercase then its vertical and only check up and down moves
-  // if uppercase then its horizontal and only check left and right moves
-  // generate all new states, checking state by state if its solved, add to queue moving that piece wherever it can
-  // continue on until next letter seen
-
-  // if(!seenStates.has(boardAsStr(next_board))){
-  //   seenStates.add(boardAsStr(next_board));
-  // }
-  // make sure board isnt in set?
-  // find all possible states and add to queue
-  // ie. a new board for each moveable piece moving once
-  // will need function for making sure "next states" are in bound
-  // might have that logic already in find diagonal neighbor
 }
 
 function horizontalStates(board: any, letter: any, row: any, rowIndex: number, seenStates: any, nextStates:any) {
   // count empty spaces to right and left
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
-
-  // TODO: Need the indices in row where our letter start is
-  // loop through row
-  // every space increment "left" by 1
-  // if you run into another letter that isnt the correct letter reset to 0
-  // when you run into correct letter you set "left" to false
-  // incrememnt every space until you hit another letter
   let leftMoves = 0;
   let rightMoves = 0;
   let leftSide = true;
   let blockedRight = false;
   for (let i = 0; i < BOARD_LEN; i++) {
-    // if(leftSide && i === 0 && row[i] === letter) {
-    //   leftSide = false;
-    //   console.log("first case", letter)
-    // }
-    // console.log(leftSide, i, row[i])
     if (leftSide && row[i] === "_") {
-      // console.log("left move + 1")
       leftMoves = leftMoves + 1;
     } else if (leftSide && row[i] !== "_" && row[i] !== letter) {
-      // console.log("left move 0")
       leftMoves = 0;
     } else if (leftSide && row[i] === letter) {
-      // console.log("left side false")
-
       leftSide = false;
     } else if (!leftSide && row[i] === "_" && !blockedRight) {
-      // console.log("right move + 1")
-
       rightMoves = rightMoves + 1;
     } else if (!leftSide && row[i] !== "_" && row[i] !== letter) {
-      // console.log("other")
-      // rightMoves = 0;
       blockedRight = true;
-
-      // if(letter === 'A') {
-      //   console.log("Yay A!", blockedRight, row[i])
-      //   console.log(boardAsStr(board))
-      // }
     }
   }
-
-  // console.log({ leftMoves, rightMoves })
-
 
   // now you have left and right amounts
   // loop left times
@@ -204,8 +143,6 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
   const firstIndex = row.indexOf(letter);
   const lastIndex = row.lastIndexOf(letter);
 
-  // console.log({ firstIndex, lastIndex })
-
   for (let i = 0; i < leftMoves; i++) {
     // build new board
     const boardToAdd = copyBoard(board);
@@ -213,7 +150,6 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     if (THREEPIECES.includes(letter)) {
       const secondIndex = lastIndex - 1;
       if (firstIndex - i - 1 >= 0) { // [_,K,K,K,_,_]
-        // console.log("three piece moving left")
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][secondIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
@@ -224,7 +160,6 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       }
     } else if (TWOPIECES.includes(letter)) {
       if (firstIndex - i - 1 >= 0) { // [_,K,K,K,_,_]
-        // console.log("two piece moving left")
 
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
@@ -233,17 +168,11 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
         boardToAdd[rowIndex][lastIndex - i - 1] = letter;
       }
     }
-
-    // console.log("before add", boardAsStr(boardToAdd))
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
-      // if(isSolved())
       // add to queue
-      // console.log("adding left move board")
-      // queue.push(boardToAdd)
       nextStates.push(boardToAdd)
-      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 
@@ -255,8 +184,6 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     if (THREEPIECES.includes(letter)) {
       const secondIndex = lastIndex - 1;
       if (firstIndex + i + 1 <= BOARD_LEN) { // [_,K,K,K,_,_]
-        // console.log("three piece moving right")
-
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][secondIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
@@ -267,8 +194,6 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
       }
     } else if (TWOPIECES.includes(letter)) {
       if (firstIndex + i + 1 <= BOARD_LEN) { // [_,K,K,K,_,_]
-        // console.log("two piece moving right")
-
         boardToAdd[rowIndex][firstIndex] = "_";
         boardToAdd[rowIndex][lastIndex] = "_";
 
@@ -280,57 +205,16 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
-      // if(isSolved())
       // add to queue
-
-      // queue.push(boardToAdd)
       nextStates.push(boardToAdd)
-      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 }
 
-
-
-// loop right times
-// make a board where row where piece is shifted right piecestart + i
-// do bounds check
-// check board as str in seen boards
-// check if solved
-// add board to queue
-
-// potential cases to design an algorithm for this
-// [_,_,A,A,_,_]
-
-// [_,B,A,A,_,_]
-
-// [B,_,A,A,K,_]
-
-// [B,_,A,A,_,K]
-
-// [_,B,A,A,K,_]
-
-// [A,A,B,_,_,_]
-
-// let leftSpaces = 0;
-// let rightSpaces = 0;
-// let leftSide = true;
-// for(let i = 0; i < BOARD_LEN; i++) {
-//   if(board[row][i] === letter){
-//     leftSide = false;
-//   }
-//   else if(leftSide && board[row][i] === "_"){
-//     leftSpaces = leftSpaces + 1;
-//   } else if(!leftSide && board[row][i] === "_")
-// }
-
-
-// TODO somehow just two k's moved?
 function verticalStates(board: any, letter: any, columnIndex: number, seenStates: any, nextStates:any) {
   // count empty spaces up and down
   // loop and generate the same board but with the piece shifted accordingly every time
   // every loop and generate check if solved and add to queue
-  // console.log("vertical")
 
   let upMoves = 0;
   let downMoves = 0;
@@ -347,33 +231,22 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
     }
     else if (above && board[i][columnIndex] === "_") {
       upMoves = upMoves + 1;
-      // console.log("upmove + 1")
     } else if (above && board[i][columnIndex] !== "_" && board[i][columnIndex] !== letter) {
-      // console.log("upmove 0", board[i][columnIndex], letter)
       upMoves = 0;
     } else if (above && board[i][columnIndex] === letter) {
       above = false;
     } else if (!above && board[i][columnIndex] === "_" && !blockedDown) {
       downMoves = downMoves + 1;
-      // console.log(board[i][columnIndex])
     } else if(!above && board[i][columnIndex] !== letter && board[i][columnIndex] !== "_") {
       blockedDown = true;
     }
     else {
-      // TODO we are overwriting here if k is vert over h
       downMoves = 0;
     }
   }
 
-  // console.log(columnAsArray)
-
-
-  // console.log({ upMoves, downMoves })
-
   const firstIndex = columnAsArray.indexOf(letter);
   const lastIndex = columnAsArray.lastIndexOf(letter);
-
-  // console.log({ firstIndex, lastIndex })
 
   /// Up moves
   for (let i = 0; i < upMoves; i++) {
@@ -404,18 +277,11 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
 
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
-      // check if solved
-      // if(isSolved())
-      // add to queue
-
-      // queue.push(boardToAdd)
       nextStates.push(boardToAdd)
-
-      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
 
-  // todo DOWN moves
+  // down movesd
   for (let i = 0; i < downMoves; i++) {
     // build new board
     const boardToAdd = copyBoard(board);
@@ -443,22 +309,10 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
     }
 
     // check new board in seen
-    // console.log(seenStates.has(boardAsStr(boardToAdd)))
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
-      // if(isSolved())
       // add to queue
-      // queue.push(boardToAdd)
       nextStates.push(boardToAdd)
-
-      // seenStates.add(boardAsStr(boardToAdd));
     }
   }
-
 }
-
-//1. Initialize a queue containing just the start state.
-//2. Dequeue the next state from the front of the queue.
-//3. Check if that’s the goal and return True if so.
-//4. Otherwise, get all possible next states and enqueue them at the back of the queue.
-//5. If the queue is exhausted, all states were examined and the goal was never reached, so return False.
