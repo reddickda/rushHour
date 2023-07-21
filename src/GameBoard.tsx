@@ -89,7 +89,7 @@ export function GameBoard() {
           onMouseEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
         // onClick={() => handleCellClick(cellIndex, rowIndex)}
-        ><button style={{ backgroundColor: letterColors[td.toUpperCase()], userSelect: 'none' }}>{td}</button></td>
+        ><button style={{ height: 50, width: 50, backgroundColor: letterColors[td.toUpperCase()], userSelect: 'none' }}></button></td>
       })}</tr>
     })
   }

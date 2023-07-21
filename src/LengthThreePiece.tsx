@@ -13,5 +13,5 @@ export function LengthThreePiece({letterRepresentation, color}: {letterRepresent
     setSelectedPiece(letterRepresentation)
   }
 
-  return (<button id={letterRepresentation} onClick={handleClick} style={{width: 60, padding: 2}}><div style={childStyle}>{letterRepresentation}</div><div style={childStyle}>{letterRepresentation}</div><div style={childStyle}>{letterRepresentation}</div></button>)
+  return (<button id={letterRepresentation} onClick={handleClick} style={{width: 80,height:30, padding: 2, backgroundColor: color}}><div style={childStyle}></div><div style={childStyle}></div><div style={childStyle}></div></button>)
 }
