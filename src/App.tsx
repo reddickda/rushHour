@@ -33,7 +33,7 @@ function App() {
         </div>
         <div>
           <button
-            style={{ outline: 'none', display: 'flex', alignItems: 'center', height: 25, fontSize: 15, backgroundColor: 'gray', borderRadius: 5, fontWeight: 400, marginLeft: 'auto', marginRight: 'auto', marginBottom: 10 }}
+            style={{ textDecoration:'none',outline: 'none', display: 'flex', alignItems: 'center', height: 25, fontSize: 15, backgroundColor: 'gray', borderRadius: 5, fontWeight: 400, marginLeft: 'auto', marginRight: 'auto', marginBottom: 10 }}
             onClick={toggleModal}>
             What is Rush Hour?
           </button>
@@ -48,7 +48,7 @@ function App() {
           <button onClick={() => clearBoard()}>Clear board</button>
           <button onClick={handleClickSolve}>Solve it!</button>
         </div>
-        {solvedBoard && <div style={{ marginTop: 10, borderRadius: 5, backgroundColor: 'green' }}><Board pathToDisplay={solvedBoard} /></div>}
+        {solvedBoard && <div style={{ marginTop: 10, borderRadius: 5 }}><Board pathToDisplay={solvedBoard} /></div>}
       </div>
       <div><a target="_blank" href="https://www.amazon.com/gp/search?ie=UTF8&tag=dreddick-20&linkCode=ur2&linkId=9ef5790b3be96d5ea3b119733363d71d&camp=1789&creative=9325&index=toys-and-games&keywords=rushhourgame">Purchase your own Rush Hour game here!</a></div>
       <p>Like this? Let me know! </p>
@@ -65,7 +65,8 @@ function App() {
         position: 'absolute',
         top: 200,
         height: 420,
-        width: 300,
+        width: 310,
+        padding:5,
         borderRadius: 5
       }}>
         <div>

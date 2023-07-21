@@ -4,7 +4,7 @@ import { LengthTwoPiece } from "./LengthTwoPiece";
 export const letterColors: any = {
   'A': 'red',
   'B': 'orange',
-  'C': 'green',
+  'C': '#354A21',
   'D': 'teal',
   'E': 'pink',
   'F': 'darkgreen',
@@ -23,7 +23,7 @@ export function ListOfPieces() {
       <div>
         <li key={'redCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='red' letterRepresentation={'A'} />}</li>
         <li key={'orangeCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='orange' letterRepresentation={'B'} />}</li>
-        <li key={'greenCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='green' letterRepresentation={'C'} />}</li>
+        <li key={'greenCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='#354A21' letterRepresentation={'C'} />}</li>
         <li key={'lightBlueCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='teal' letterRepresentation={'D'} />}</li>
       </div>
       <div>

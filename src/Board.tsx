@@ -12,7 +12,7 @@ export const Board = ({ pathToDisplay }: any) => {
   }
 
   const BoardBody = ({ board }: any) => {
-    return (<table style={{marginLeft: 'auto', marginRight: 'auto'}} cellPadding={0}>
+    return (<table cellPadding={0}>
       <tbody>
         <tr>
           <th>1</th>
@@ -28,7 +28,7 @@ export const Board = ({ pathToDisplay }: any) => {
   }
 
   return pathToDisplay.map((path: any) => {
-      return <div key={boardAsStr(path)} style={{ padding: 5 }}><div>___________________________________________</div><BoardBody board={path} /></div>
+      return <div key={boardAsStr(path)} style={{ marginLeft: 'auto', marginRight: 'auto', width:315 ,backgroundColor: 'green', padding: 5, marginBottom: 10, borderRadius: 5 }}><BoardBody board={path} /></div>
     })
   
 }
