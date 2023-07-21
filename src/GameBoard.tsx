@@ -12,7 +12,7 @@ export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
 export const THREEPIECES = ['L', 'M', 'N', 'O']
 
 export function GameBoard() {
-  const { state, updateHashedBoard } = useMyContext();
+  const { state, updateHashedBoard, addLetterOnBoard } = useMyContext();
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [spacesFromDrag, setSpacesFromDrag] = useState(new Set<ITablePiece>());
 
@@ -61,6 +61,7 @@ export function GameBoard() {
     checkForDiagonals(spacesFromDrag, setSpacesFromDrag);
 
     updateHashedBoard(spacesFromDrag, state.boardAsAHashedSet)
+    addLetterOnBoard(state.selectedPiece)
     spacesFromDrag.clear();
     setSpacesFromDrag(spacesFromDrag)
   };
@@ -70,6 +71,10 @@ export function GameBoard() {
     spacesFromDrag.clear();
     setSpacesFromDrag(spacesFromDrag)
   }
+
+  // const clearCell = (rowIndex: number, cellIndex: number) => {
+  //   removePieceFromBoard(rowIndex, cellIndex, state.boardAsAHashedSet)
+  // }
 
   // update this to make use of new hashed board
   const BuildBoard = () => {
@@ -96,12 +101,13 @@ export function GameBoard() {
           onPointerUp={handleMouseUp}
           onPointerEnter={() => handleCellMouseEnter(rowIndex, cellIndex)}
           key={cellIndex + "," + rowIndex}
-        ><button style={{
-          height: 50,
-          width: 50,
-          backgroundColor: letterColors[td.toUpperCase()],
-          userSelect: 'none',
-        }}>
+        ><button
+          style={{
+            height: 50,
+            width: 50,
+            backgroundColor: letterColors[td.toUpperCase()],
+            userSelect: 'none',
+          }}>
             {isExitRow && isExitCell &&
               <div style={{
                 height: '30px',
@@ -122,15 +128,15 @@ export function GameBoard() {
   }
 
   return (
-    <table style={{ touchAction: 'none' }} onMouseLeave={handleTableLeave} cellPadding={0}>
+    <table style={{ touchAction: 'none', marginTop: 10 }} onMouseLeave={handleTableLeave} cellPadding={0}>
       <tbody>
         <tr>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
-          <th>6</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
         </tr>
         {
           <BuildBoard />

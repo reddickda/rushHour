@@ -85,7 +85,7 @@ export function copyBoard(board:any) {
 //       ....
 //      </tbody>
 
-function getPieceCountsFromBoard(board: Set<ITablePiece>) {
+export function getPieceCountsFromBoard(board: Set<ITablePiece>) {
   const pieceMap = new Map<string, number>();
   pieceMap.set('A', 0);
   pieceMap.set('B', 0);
@@ -98,13 +98,17 @@ function getPieceCountsFromBoard(board: Set<ITablePiece>) {
   pieceMap.set('I', 0);
   pieceMap.set('J', 0);
   pieceMap.set('K', 0);
+  pieceMap.set('L', 0);
+  pieceMap.set('M', 0);
+  pieceMap.set('N', 0);
+  pieceMap.set('O', 0);
   pieceMap.set('_', 0);
 
   // get counts for each piece
   board.forEach((boardPiece) => {
-    let val = pieceMap.get(boardPiece.piece) || 0;
+    let val = pieceMap.get(boardPiece.piece.toUpperCase()) || 0;
     val = val + 1;
-    pieceMap.set(boardPiece.piece, val);
+    pieceMap.set(boardPiece.piece.toUpperCase(), val);
   })
   return pieceMap;
 }
@@ -199,6 +203,8 @@ function clearAndSetPieceFromDrag(hashedPieces: Set<ITablePiece>, board: Set<ITa
       }
     })
   })
+
+
 
   // set the new piece
   hashedPieces.forEach((hashedPiece) => {

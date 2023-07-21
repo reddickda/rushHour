@@ -44,16 +44,17 @@ export const Board = ({ pathToDisplay }: any) => {
     })
   }
 
-  const BoardBody = ({ board }: any) => {
+  const BoardBody = ({ board, index }: any) => {
     return (<table cellPadding={0}>
+      <caption>{index}</caption>
       <tbody>
         <tr>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
-          <th>6</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
         </tr>
         <BoardContent content={board} />
       </tbody>
@@ -64,7 +65,7 @@ export const Board = ({ pathToDisplay }: any) => {
     if (index === 0) {
       return
     }
-    return <div key={boardAsStr(path.board)} style={{ marginLeft: 'auto', marginRight: 'auto', width: 315, backgroundColor: 'green', padding: 5, marginBottom: 10, borderRadius: 5 }}><BoardBody board={path} /></div>
+    return <div key={boardAsStr(path.board)} style={{ marginLeft: 'auto', marginRight: 'auto', width: 315, backgroundColor: 'green', padding: 5, marginBottom: 10, borderRadius: 5 }}><BoardBody index={index} board={path} /></div>
   })
 
 }
