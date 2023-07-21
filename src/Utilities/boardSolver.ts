@@ -5,15 +5,12 @@ let k = 0;
 
 // TODO: double check logic and add traceback
 export function bfs(start_state: any) {
-  console.log("solving...")
   const boardAs2D = convertFlatArrayTo2D(start_state);
   const queue: any = [];
   const visitedSet = new Set();
   // add start state to queue and set
   queue.push([boardAs2D])
   visitedSet.add(boardAsStr(boardAs2D))
-  console.log({ boardAs2D })
-  console.log({ visitedSet })
 
   while (queue.length !== 0) {
     // removes first
@@ -46,7 +43,6 @@ export function bfs(start_state: any) {
     if(queue.length === 0) {
       alert("not solvable")
     }
-    console.log("nextqueue", queue.length)
     k=k+1
   }
 }
