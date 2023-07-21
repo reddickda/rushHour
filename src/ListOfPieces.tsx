@@ -23,13 +23,13 @@ export function ListOfPieces() {
 
   return <>
     <div style={{display:'flex', backgroundColor: '#242424', padding:10, borderRadius:10}}>
-      <div>
+      <div style={{paddingRight: 4 }}>
         <li key={'redCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='red' letterRepresentation={'A'} />}</li>
         <li key={'orangeCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='orange' letterRepresentation={'B'} />}</li>
         <li key={'greenCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='#354A21' letterRepresentation={'C'} />}</li>
         <li key={'lightBlueCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='teal' letterRepresentation={'D'} />}</li>
       </div>
-      <div>
+      <div style={{paddingRight: 4 }}>
         <li key={'pinkCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='pink' letterRepresentation={'E'} />}</li>
         <li key={'darkGreenCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='darkGreen' letterRepresentation={'F'} />}</li>
         <li key={'purpleCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='purple' letterRepresentation={'G'} />}</li>
