@@ -267,22 +267,22 @@ export function checkForDiagonals(spacesFromDrag: Set<ITablePiece>, setSpacesFro
 
 function findDiagonalNeighbors(prev: { x: number; y: number; }, x: number, y: number) {
   // Check top-left neighbor
-  if (x > 0 && y > 0 && x === prev.x - 1 && y == prev.y - 1) {
+  if (x >= 0 && y >= 0 && x === prev.x - 1 && y == prev.y - 1) {
     return true;
   }
 
   // Check top-right neighbor
-  if (x < BOARD_LEN - 1 && y > 0 && x === prev.x + 1 && prev.y === y - 1) {
+  if (x <= BOARD_LEN - 1 && y >= 0 && x === prev.x + 1 && prev.y === y - 1) {
     return true;
   }
 
   // Check bottom-left neighbor
-  if (x > 0 && y < BOARD_LEN - 1 && x === prev.x - 1 && y === prev.y + 1) {
+  if (x >= 0 && y <= BOARD_LEN - 1 && x === prev.x - 1 && y === prev.y + 1) {
     return true;
   }
 
   // Check bottom-right neighbor
-  if (x < BOARD_LEN - 1 && y < BOARD_LEN - 1 && x === prev.x + 1 && y === prev.y + 1) {
+  if (x <= BOARD_LEN - 1 && y <= BOARD_LEN - 1 && x === prev.x + 1 && y === prev.y + 1) {
     return true;
   }
 
