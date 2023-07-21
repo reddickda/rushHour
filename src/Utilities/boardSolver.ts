@@ -9,20 +9,20 @@ export function bfs(start_state: any) {
   const queue: any = [];
   const visitedSet = new Set();
   // add start state to queue and set
-  queue.push([boardAs2D])
+  queue.push([{board: boardAs2D, letter: ''}])
   visitedSet.add(boardAsStr(boardAs2D))
 
   while (queue.length !== 0) {
     // removes first
     const pathToCheck = queue.shift();
     const lastIndex = pathToCheck.length - 1;
-    const stringBoard = boardAsStr(pathToCheck[lastIndex]);
+    const stringBoard = boardAsStr(pathToCheck[lastIndex].board);
     visitedSet.add(stringBoard)
 
 
 
     // check if is solved
-    if (isSolved(pathToCheck[lastIndex])) {
+    if (isSolved(pathToCheck[lastIndex].board)) {
       // will need to implement paths/moves but just send back solved board for now
       return pathToCheck;
     }
@@ -30,12 +30,13 @@ export function bfs(start_state: any) {
     // make sure passin visitedSet here and adding to it is the same object
     // next states returns array 
     // iterate through array returned and append to queue
-    const nextStates = getNextStates(pathToCheck[lastIndex], visitedSet);
+    const nextStates = getNextStates(pathToCheck[lastIndex].board, visitedSet);
 
+    // [{ board: [], letter: a }]
     nextStates.map((nextState:any) => {
-      if(!visitedSet.has(boardAsStr(nextState))){
+      if(!visitedSet.has(boardAsStr(nextState.board))){
 
-        visitedSet.add(boardAsStr(nextState));
+        visitedSet.add(boardAsStr(nextState.board));
         queue.push([...pathToCheck, nextState])
       }
     })
@@ -168,7 +169,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
       // add to queue
-      nextStates.push(boardToAdd)
+      nextStates.push({board: boardToAdd, letter: letter})
     }
   }
 
@@ -202,7 +203,7 @@ function horizontalStates(board: any, letter: any, row: any, rowIndex: number, s
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
       // add to queue
-      nextStates.push(boardToAdd)
+      nextStates.push({board: boardToAdd, letter: letter})
     }
   }
 }
@@ -273,7 +274,7 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
 
     // check new board in seen
     if (!seenStates.has(boardAsStr(boardToAdd))) {
-      nextStates.push(boardToAdd)
+      nextStates.push({board: boardToAdd, letter: letter})
     }
   }
 
@@ -308,7 +309,7 @@ function verticalStates(board: any, letter: any, columnIndex: number, seenStates
     if (!seenStates.has(boardAsStr(boardToAdd))) {
       // check if solved
       // add to queue
-      nextStates.push(boardToAdd)
+      nextStates.push({board: boardToAdd, letter: letter})
     }
   }
 }

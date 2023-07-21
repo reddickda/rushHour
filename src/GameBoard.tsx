@@ -8,8 +8,8 @@ export interface ITablePiece {
   piece: string;
 }
 
-export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-export const THREEPIECES = ['I', 'J', 'K', 'L']
+export const TWOPIECES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I', 'J', 'K'];
+export const THREEPIECES = ['L', 'M', 'N', 'O']
 
 export function GameBoard() {
   const { state, updateHashedBoard } = useMyContext();

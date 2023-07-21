@@ -10,10 +10,13 @@ export const letterColors: any = {
   'F': 'darkgreen',
   'G': 'purple',
   'H': 'tan',
-  'K': 'yellow',
-  'I': 'blue',
-  'J': '#CBC3E3',
-  'L': 'gray'
+  'I': '#5C2C06',
+  'J': 'white',
+  'K': 'maroon',
+  'L': 'yellow',
+  'M': 'blue',
+  'N': '#CBC3E3',
+  'O': 'gray'
 }
 
 export function ListOfPieces() {
@@ -32,12 +35,17 @@ export function ListOfPieces() {
         <li key={'purpleCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='purple' letterRepresentation={'G'} />}</li>
         <li key={'tanCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='tan' letterRepresentation={'H'} />}</li>
       </div>
+      <div>
+        <li key={'brownCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='#5C2C06' letterRepresentation={'I'} />}</li>
+        <li key={'whiteCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='white' letterRepresentation={'J'} />}</li>
+        <li key={'maroonCar'} style={{ listStyleType: 'none' }}>{<LengthTwoPiece color='maroon' letterRepresentation={'K'} />}</li>
+      </div>
     </div>
     <div style={{backgroundColor: '#242424', padding:10, borderRadius:10}}>
-      <li key={'yellowCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='yellow' letterRepresentation={'K'} />}</li>
-      <li key={'blueCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='blue' letterRepresentation={'I'} />}</li>
-      <li key={'lightPurpleCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='#CBC3E3' letterRepresentation={'J'} />}</li>
-      <li key={'grayCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='gray' letterRepresentation={'L'} />}</li>
+      <li key={'yellowCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='yellow' letterRepresentation={'L'} />}</li>
+      <li key={'blueCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='blue' letterRepresentation={'M'} />}</li>
+      <li key={'lightPurpleCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='#CBC3E3' letterRepresentation={'N'} />}</li>
+      <li key={'grayCar'} style={{ listStyleType: 'none' }}>{<LengthThreePiece color='gray' letterRepresentation={'O'} />}</li>
     </div>
   </>
 }
