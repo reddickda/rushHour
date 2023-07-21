@@ -64,6 +64,7 @@ function isSolved(board: any) {
     return false;
   }
 
+  alert('We solved it!')
   return true;
 }
 
