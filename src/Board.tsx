@@ -7,9 +7,7 @@ export const Board = ({ pathToDisplay }: any) => {
     return content.board.map((row: [], rowIndex: number) => {
       return <tr key={rowIndex}>{row.map((td: string, cellIndex: number) => {
         let movedCell = false;
-        console.log({ td }, content.letter)
         if (td.toUpperCase() === content.letter.toUpperCase()) {
-          console.log("jere")
           movedCell = true;
         }
         return <td key={cellIndex + "," + rowIndex}><button style={
@@ -41,7 +39,10 @@ export const Board = ({ pathToDisplay }: any) => {
     </table>);
   }
 
-  return pathToDisplay.map((path: any) => {
+  return pathToDisplay.map((path: any, index: number) => {
+    if(index === 0) {
+      return
+    }
     return <div key={boardAsStr(path.board)} style={{ marginLeft: 'auto', marginRight: 'auto', width: 315, backgroundColor: 'green', padding: 5, marginBottom: 10, borderRadius: 5 }}><BoardBody board={path} /></div>
   })
 

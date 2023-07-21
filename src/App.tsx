@@ -33,7 +33,7 @@ function App() {
         </div>
         <div>
           <button
-            style={{ textDecoration:'none',outline: 'none', display: 'flex', alignItems: 'center', height: 25, fontSize: 15, backgroundColor: 'gray', borderRadius: 5, fontWeight: 400, marginLeft: 'auto', marginRight: 'auto', marginBottom: 10 }}
+            style={{ textDecoration: 'none', outline: 'none', display: 'flex', alignItems: 'center', height: 25, fontSize: 15, backgroundColor: 'gray', borderRadius: 5, fontWeight: 400, marginLeft: 'auto', marginRight: 'auto', marginBottom: 10 }}
             onClick={toggleModal}>
             What is Rush Hour?
           </button>
@@ -48,7 +48,12 @@ function App() {
           <button onClick={() => clearBoard()}>Clear board</button>
           <button onClick={handleClickSolve}>Solve it!</button>
         </div>
-        {solvedBoard && <div style={{ marginTop: 10, borderRadius: 5 }}><Board pathToDisplay={solvedBoard} /></div>}
+        {solvedBoard && <>
+          <div style={{ marginTop: 10, borderRadius: 5 }}>
+            <p>We solved it!</p>
+            <Board pathToDisplay={solvedBoard} />
+          </div>
+        </>}
       </div>
       <div><a target="_blank" href="https://www.amazon.com/gp/search?ie=UTF8&tag=dreddick-20&linkCode=ur2&linkId=9ef5790b3be96d5ea3b119733363d71d&camp=1789&creative=9325&index=toys-and-games&keywords=rushhourgame">Purchase your own Rush Hour game here!</a></div>
       <p>Like this? Let me know! </p>
@@ -66,13 +71,13 @@ function App() {
         top: 200,
         height: 420,
         width: 310,
-        padding:5,
+        padding: 5,
         borderRadius: 5
       }}>
         <div>
           In Rush Hour, a sliding block logic game, you have to battle the gridlock as you slide the blocking vehicles out of the way for the red car to exit
         </div>
-        <img style={{marginLeft: 'auto', marginRight: 'auto'}} height={150} width={300} src={imageRush} />
+        <img style={{ marginLeft: 'auto', marginRight: 'auto' }} height={150} width={300} src={imageRush} />
         <div>Set up your board by selecting a piece and dragging it on the board below.</div>
         <div>The red car can only be on the 3rd row!</div>
         <div>Note sometimes a solution is impossible if you set it up a certain way.</div>
