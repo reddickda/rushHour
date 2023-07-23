@@ -42,7 +42,7 @@ export function bfs(start_state: any) {
     })
 
     if(queue.length === 0) {
-      alert("not solvable")
+      alert("A solution does not exist")
     }
     k=k+1
   }
