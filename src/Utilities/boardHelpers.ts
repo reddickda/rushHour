@@ -102,6 +102,7 @@ export function getPieceCountsFromBoard(board: Set<ITablePiece>) {
   pieceMap.set('M', 0);
   pieceMap.set('N', 0);
   pieceMap.set('O', 0);
+  pieceMap.set('P', 0);
   pieceMap.set('_', 0);
 
   // get counts for each piece

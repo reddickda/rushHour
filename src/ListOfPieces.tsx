@@ -15,10 +15,11 @@ export const letterColors: any = {
   'I': '#5C2C06',
   'J': 'white',
   'K': 'maroon',
-  'L': 'yellow',
-  'M': 'blue',
-  'N': '#CBC3E3',
-  'O': 'gray'
+  'L': '#ffdb58',
+  'M': 'yellow',
+  'N': 'blue',
+  'O': '#CBC3E3',
+  'P': 'gray'
 }
 
 const OPACITY = .05
@@ -47,13 +48,15 @@ export function ListOfPieces() {
         <li key={'brownCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('I') !==0 ? OPACITY_LIGHT : undefined }}>{<LengthTwoPiece color='#5C2C06' letterRepresentation={'I'} />}</li>
         <li key={'whiteCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('J') !==0 ? OPACITY : undefined }}>{<LengthTwoPiece color='white' letterRepresentation={'J'} />}</li>
         <li key={'maroonCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('K') !==0 ? OPACITY_LIGHT : undefined }}>{<LengthTwoPiece color='maroon' letterRepresentation={'K'} />}</li>
+        <li key={'goldCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('L') !==0 ? OPACITY_LIGHT : undefined }}>{<LengthTwoPiece color='#ffdb58' letterRepresentation={'L'} />}</li>
+
       </div>
     </div>
     <div style={{backgroundColor: '#242424', padding:10, borderRadius:10}}>
-      <li key={'yellowCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('L') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='yellow' letterRepresentation={'L'} />}</li>
-      <li key={'blueCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('M') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='blue' letterRepresentation={'M'} />}</li>
-      <li key={'lightPurpleCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('N') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='#CBC3E3' letterRepresentation={'N'} />}</li>
-      <li key={'grayCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('O') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='gray' letterRepresentation={'O'} />}</li>
+      <li key={'yellowCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('M') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='yellow' letterRepresentation={'M'} />}</li>
+      <li key={'blueCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('N') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='blue' letterRepresentation={'N'} />}</li>
+      <li key={'lightPurpleCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('O') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='#CBC3E3' letterRepresentation={'O'} />}</li>
+      <li key={'grayCar'} style={{ listStyleType: 'none', opacity: pieceMap.get('P') !==0 ? OPACITY : undefined }}>{<LengthThreePiece color='gray' letterRepresentation={'P'} />}</li>
     </div>
   </>
 }
